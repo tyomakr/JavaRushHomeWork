@@ -15,24 +15,39 @@ public class Solution
 {
     public static void main(String[] args) throws Exception
     {
-       int numbers[];
-        int quantity;
-        Scanner input = new Scanner(System.in);
-        quantity = input.nextInt();
-        numbers = new int[quantity];
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        for (int i = 0; i < quantity; i++) {
-            numbers[i] = input.nextInt();
+        int maximum = Integer.parseInt(reader.readLine());
+
+        if (maximum <= 0)
+        {
+            System.out.println("Error");
+            return;
         }
+        else
+        {
+            int result;
+            int numbers[] = new int[maximum];
 
-        int maximum = 0;
-        for (int i = 0; i < numbers.length; i++) {
-            if (maximum < numbers[i]) {
-                maximum = numbers[i];
+            for (int i =0; i < maximum; i++)
+            {
+                numbers[i] = Integer.parseInt(reader.readLine());
             }
-        }
 
-        System.out.println(maximum);
+            result = numbers[0];
+
+            for (int i =1; i < maximum; i++)
+            {
+                result = max(numbers[i], result);
+            }
+            System.out.println(result);
+        }
 
     }
+
+    public static int max(int a, int b)
+    {
+        return a > b? a: b;
+    }
 }
+
