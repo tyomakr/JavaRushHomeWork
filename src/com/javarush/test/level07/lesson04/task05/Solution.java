@@ -1,7 +1,5 @@
 package com.javarush.test.level07.lesson04.task05;
 
-import com.sun.deploy.util.ArrayUtil;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
@@ -30,7 +28,11 @@ public class Solution
         arSmallOne = Arrays.copyOfRange(arBig, 0, 10);
         arSmallTwo = Arrays.copyOfRange(arBig, 10, 20);
 
-        PrintArray(arSmallTwo);
+
+        for (int i = 0; i < arSmallTwo.length; i++) {
+            System.out.println(arSmallTwo[i]);
+        }
+
 
 
     }
@@ -44,15 +46,5 @@ public class Solution
             array[i] = Integer.parseInt(st);
         }
     }
-
-
-    public static void PrintArray(int[] array) throws Exception {
-
-        for (int i = 0; i < array.length; i++) {
-            System.out.println(array[i]);
-        }
-
-    }
-
 
 }
