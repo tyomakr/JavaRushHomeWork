@@ -1,7 +1,10 @@
 package com.javarush.test.level07.lesson04.task05;
 
+import com.sun.deploy.util.ArrayUtil;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 /* Один большой массив и два маленьких
 1. Создать массив на 20 чисел.
@@ -13,15 +16,21 @@ import java.io.InputStreamReader;
 
 public class Solution
 {
+
+    public static int arBig [] = new int[20];
+    public static int arSmallOne[] = new int [10];
+    public static int arSmallTwo[] = new int [10];
+
+
     public static void main(String[] args) throws Exception
     {
 
-        int arBig [] = new int[20];
-        int arSmallOne[] = new int [10];
-        int arSmallTwo[] = new int [10];
-
         InputArray(arBig);
 
+        arSmallOne = Arrays.copyOfRange(arBig, 0, 10);
+        arSmallTwo = Arrays.copyOfRange(arBig, 10, 20);
+
+        PrintArray(arSmallTwo);
 
 
     }
@@ -36,11 +45,6 @@ public class Solution
         }
     }
 
-    public static void CopyArrays(int[] array1, int[] array2, int[]arrayResult) {
-
-
-
-    }
 
     public static void PrintArray(int[] array) throws Exception {
 
