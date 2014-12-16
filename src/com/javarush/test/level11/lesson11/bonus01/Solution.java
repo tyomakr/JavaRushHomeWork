@@ -10,7 +10,7 @@ public class Solution
     {
     }
 
-    public class Pet extends House
+    public class Pet
     {
 
     }
@@ -25,7 +25,7 @@ public class Solution
 
     }
 
-    public class House extends Airplane
+    public class House
     {
 
     }

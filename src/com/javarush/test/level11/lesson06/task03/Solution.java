@@ -13,32 +13,33 @@ public class Solution
 
     public class Animal
     {
-
+        Object head;
+        Object body;
     }
 
-    public class Cow
+    public class Cow extends Animal
     {
-
+        Object vimya;
     }
 
-    public class Pig
+    public class Pig extends Animal
     {
-
+        Object pyatachok;
     }
 
-    public class Sheep
+    public class Sheep extends Animal
     {
-
+        Object sherst;
     }
 
-    public class Bull
+    public class Bull extends Animal
     {
-
+        Object roga;
     }
 
-    public class Goat
+    public class Goat extends Animal
     {
-
+        Object boroda;
     }
 
 }

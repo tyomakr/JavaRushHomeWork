@@ -38,10 +38,19 @@ public class Solution
     {
         HashMap<String, Integer> result = new HashMap<String, Integer>();
 
-        for  (int i = 0; i < 20; i++) {
+        for(int i = 0; i < list.size(); i++) {
+            String str1 = list.get(i);
+            int count = 0;
 
+            for (int j =0; j < list.size(); j++) {
+                String str2 = list.get(j);
+                if (str1.equals(str2)) {
+                    count++;
+                }
+
+            }
+            result.put(str1, count);
         }
-
 
         return result;
     }
