@@ -63,7 +63,43 @@ public class Solution {
 
             if (args[0].equals("-u")) {
                 synchronized (allPeople) {
+                    for (int i = 1; i < args.length; i = i + 4) {
+                        int id = Integer.parseInt(args[i]);
+                        String name = args[i + 1];
+                        String sex = args[i + 2];
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+                        Date date = format.parse(args[i + 3]);
+                        for (int j = 0; j < allPeople.size(); j++) {
+                            if (id == j) {
+                                allPeople.get(j).setName(name);
+                                allPeople.get(j).setSex("м".equals(sex) ? Sex.MALE : Sex.FEMALE);
+                                allPeople.get(j).setBirthDay(date);
+                            }
+                        }
+                    }
+                }
+            }
 
+            if (args[0].equals("-d")) {
+                synchronized (allPeople) {
+                    for (int i = 1; i < args.length; i++) {
+                        allPeople.get(Integer.parseInt(args[i])).setName(null);
+                        allPeople.get(Integer.parseInt(args[i])).setSex(null);
+                        allPeople.get(Integer.parseInt(args[i])).setBirthDay(null);
+                    }
+                }
+            }
+
+            if (args[0].equals("-i")) {
+                synchronized (allPeople) {
+                    for (int i = 1; i < args.length; i++) {
+                        int id = Integer.parseInt(args[i]);
+                        System.out.println(allPeople.get(id).getName() + " ");
+                        System.out.println(allPeople.get(id).getSex().equals(Sex.MALE) ? "м " : "ж ");
+                        SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+                        System.out.println(format.format(allPeople.get(id).getBirthDay()));
+
+                    }
                 }
             }
 
