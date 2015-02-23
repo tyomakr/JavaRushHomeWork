@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /* Самые частые байты
 Ввести с консоли имя файла
@@ -21,8 +22,16 @@ public class Solution {
         reader.close();
         FileInputStream iStream = new FileInputStream(fileName);
 
-        HashMap <String, Integer> map = new HashMap<>();
+        ArrayList<Integer> streamList = new ArrayList<>();
+        Map <Integer, Integer> map = new HashMap<>();
 
+
+        //записываем байты в лист
+        while (iStream.available() > 0) {
+            streamList.add(iStream.read());
+        }
+
+        //считаем кол-во повторов и пишем в map
 
 
 
