@@ -23,7 +23,7 @@ public class Solution {
         FileInputStream iStream = new FileInputStream(fileName);
 
         ArrayList<Integer> streamList = new ArrayList<>();
-        Map <Integer, Integer> map = new HashMap<>();
+        Map <Integer, Integer> resultMap = new HashMap<>();
 
 
         //записываем байты в лист
@@ -33,7 +33,11 @@ public class Solution {
 
         //считаем кол-во повторов и пишем в map
 
+        for (int i = 0; i < streamList.size(); i++) {
+            
+        }
 
 
     }
+
 }
