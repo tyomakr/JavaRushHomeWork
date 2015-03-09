@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /* Самые частые байты
 Ввести с консоли имя файла
@@ -23,7 +21,7 @@ public class Solution {
         FileInputStream iStream = new FileInputStream(fileName);
 
         ArrayList<Integer> streamList = new ArrayList<>();
-        Map <Integer, Integer> resultMap = new HashMap<>();
+        ArrayList<Integer> resultList = new ArrayList<>();
 
 
         //записываем байты в лист
@@ -31,13 +29,44 @@ public class Solution {
             streamList.add(iStream.read());
         }
 
-        //считаем кол-во повторов и пишем в map
+        iStream.close();
+
+        //считаем количество каждого байта
+        int[] count = new int[streamList.size()];
 
         for (int i = 0; i < streamList.size(); i++) {
-            
+            count[i] = 0;
+
+            for (int j = 0; j < streamList.size(); j++) {
+                if (streamList.get(i) == streamList.get(j)) {
+                    count[i] ++;
+                }
+            }
+        }
+
+        // определение минимума
+        int min = Integer.MIN_VALUE;
+
+        for (int m : count) {
+            if (m > min) {
+                min = m;
+            }
+        }
+
+        // собираем байты c минимумом без повторов
+
+        for (int i = 0; i < streamList.size(); i++) {
+            if (!resultList.contains(streamList.get(i)) && count[i] == min) {
+                resultList.add (streamList.get(i));
+            }
+        }
+
+        //выводим на экран результат
+        for (int i = 0; i < resultList.size(); i++) {
+            System.out.print(resultList.get(i) + " ");
         }
 
 
     }
-
 }
+
