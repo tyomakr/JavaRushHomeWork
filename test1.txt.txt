@@ -1,0 +1,20 @@
+--BEGIN TEST TEXT FILE--
+1
+2
+3
+41-
+04343
+ds1
+ds-43
+true
+false
+text line
+29
+2---98
+98
+
+3200\32
+4344
+1
+2324
+--END TEST TEXT FILE--
