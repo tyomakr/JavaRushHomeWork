@@ -14,23 +14,6 @@ public class CashMachine {
 
 
 
-
-        /*
-        String code = ConsoleHelper.askCurrencyCode();
-        String [] arg = new String[0];
-        try {
-            arg = ConsoleHelper.getValidTwoDigits(code);
-
-        } catch (InterruptOperationException e) {
-            e.printStackTrace();
-        }
-        CurrencyManipulator  currentMon = CurrencyManipulatorFactory.getManipulatorByCurrencyCode(code);
-        currentMon.addAmount(Integer.parseInt(arg[0]), Integer.parseInt(arg[1]));
-
-        System.out.println(currentMon.getTotalAmount());
-
-        */
-
     }
 
 
