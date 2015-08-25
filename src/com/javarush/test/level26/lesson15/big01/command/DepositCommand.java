@@ -9,7 +9,7 @@ import com.javarush.test.level26.lesson15.big01.exception.InterruptOperationExce
 class DepositCommand implements Command {
 
     @Override
-    public void execute() {
+    public void execute() throws InterruptOperationException {
 
         String code = ConsoleHelper.askCurrencyCode();
         String [] arg = new String[0];

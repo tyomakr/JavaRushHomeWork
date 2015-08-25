@@ -17,22 +17,23 @@ public class ConsoleHelper {
     }
 
 
-    public static String readString() {
+    public static String readString() throws InterruptOperationException {
 
         String message = "";
-
-        try {
+        try
+        {
             message = reader.readLine();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            if (message.equalsIgnoreCase("operation.EXIT"))
+                throw new InterruptOperationException();
+        }
+        catch (IOException ignored)
+        {
         }
         return message;
     }
 
 
-    public static String askCurrencyCode() {
+    public static String askCurrencyCode() throws InterruptOperationException {
 
         String s;
         while (true) {
@@ -84,7 +85,7 @@ public class ConsoleHelper {
     }
 
 
-    public static Operation askOperation() {
+    public static Operation askOperation() throws InterruptOperationException {
 
         while (true)
         {
