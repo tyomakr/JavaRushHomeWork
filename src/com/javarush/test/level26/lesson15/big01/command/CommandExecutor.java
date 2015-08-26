@@ -11,7 +11,7 @@ public class CommandExecutor
     private static Map<Operation, Command> map = new HashMap<>();
 
     static {
-
+        map.put(Operation.LOGIN, new LoginCommand());
         map.put(Operation.INFO, new InfoCommand());
         map.put(Operation.DEPOSIT, new DepositCommand());
         map.put(Operation.WITHDRAW, new WithdrawCommand());

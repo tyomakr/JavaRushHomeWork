@@ -9,12 +9,16 @@ import java.util.Locale;
 public class CashMachine {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         Locale.setDefault(Locale.ENGLISH);
+
+
 
         try
         {
+            CommandExecutor.execute(Operation.LOGIN);
             Operation operation;
+
             do
             {
                 ConsoleHelper.writeMessage("\nВыберите операцию: \n1)Info\n2)Deposit\n3)Withdraw\n4)Exit\n");
