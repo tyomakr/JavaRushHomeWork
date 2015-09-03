@@ -1,30 +1,32 @@
 package com.javarush.test.level26.lesson15.big01.command;
 
 
+import com.javarush.test.level26.lesson15.big01.CashMachine;
 import com.javarush.test.level26.lesson15.big01.ConsoleHelper;
 import com.javarush.test.level26.lesson15.big01.exception.InterruptOperationException;
+import java.util.ResourceBundle;
 
 
 class LoginCommand implements Command {
 
+    private ResourceBundle validCreditCards = ResourceBundle.getBundle(CashMachine.RESOURCE_PATH + "verifiedCards");
+
     @Override
     public void execute() throws InterruptOperationException {
 
-        String cardNumber = "123456789012";
-        String pin = "1234";
-        String tempCardNumber;
-        String tempPin;
+        String cardNumber;
+        String pin;
 
 
         while (true) {
 
             ConsoleHelper.writeMessage("Enter CardNumber and PIN");
-            tempCardNumber = ConsoleHelper.readString();
-            tempPin = ConsoleHelper.readString();
+            cardNumber = ConsoleHelper.readString();
+            pin = ConsoleHelper.readString();
 
-            if (tempCardNumber.matches("\\d{12}") && tempCardNumber.length() == 12 && tempPin.matches("\\d{4}") && tempPin.length() == 4) {
+            if (validCreditCards.containsKey(cardNumber)) {
 
-                if (tempCardNumber.equals(cardNumber) && tempPin.equals(pin)) {
+                if (validCreditCards.getString(cardNumber).equals(pin)) {
                     ConsoleHelper.writeMessage("Verification complete successfully");
                     break;
                 }
@@ -32,13 +34,10 @@ class LoginCommand implements Command {
                     ConsoleHelper.writeMessage("Incorrect data");
                 }
             }
-
             else {
                 ConsoleHelper.writeMessage("Incorrect data");
             }
-
         }
-
     }
 }
 
