@@ -12,23 +12,23 @@ class WithdrawCommand implements Command {
     public void execute() throws InterruptOperationException {
 
 
-        ConsoleHelper.writeMessage("Введите код валюты: ");
+        ConsoleHelper.writeMessage("Enter currency code: ");
         String currencyCode = ConsoleHelper.askCurrencyCode();
         CurrencyManipulator curManipulator = CurrencyManipulatorFactory.getManipulatorByCurrencyCode(currencyCode);
         int sum;
 
         while (true) {
-            ConsoleHelper.writeMessage("Введите сумму: ");
+            ConsoleHelper.writeMessage("Enter sum: ");
             String str = ConsoleHelper.readString();
 
             try {
                 sum = Integer.parseInt(str);
             } catch (NumberFormatException e ) {
-                ConsoleHelper.writeMessage("Неверный ввод");
+                ConsoleHelper.writeMessage("Incorrect data");
                 continue;
             }
             if (sum <= 0) {
-                ConsoleHelper.writeMessage("Введите правильное значение");
+                ConsoleHelper.writeMessage("Enter correct data");
                 continue;
             }
 

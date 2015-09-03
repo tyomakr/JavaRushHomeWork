@@ -7,38 +7,34 @@ import com.javarush.test.level26.lesson15.big01.exception.InterruptOperationExce
 
 class LoginCommand implements Command {
 
-    String cardNumber = "123456789012";
-    String pin = "1234";
-
     @Override
     public void execute() throws InterruptOperationException {
 
-
+        String cardNumber = "123456789012";
+        String pin = "1234";
         String tempCardNumber;
         String tempPin;
 
 
         while (true) {
 
-            ConsoleHelper.writeMessage("Введите номер карты и пин");
+            ConsoleHelper.writeMessage("Enter CardNumber and PIN");
             tempCardNumber = ConsoleHelper.readString();
             tempPin = ConsoleHelper.readString();
 
-            if (tempCardNumber.length() != 12) {
-                ConsoleHelper.writeMessage("Неверный номер карты");
-                continue;
-            }
-            else if (tempPin.length() != 4) {
-                ConsoleHelper.writeMessage("Неверный пин");
-                continue;
+            if (tempCardNumber.matches("\\d{12}") && tempCardNumber.length() == 12 && tempPin.matches("\\d{4}") && tempPin.length() == 4) {
+
+                if (tempCardNumber.equals(cardNumber) && tempPin.equals(pin)) {
+                    ConsoleHelper.writeMessage("Verification complete successfully");
+                    break;
+                }
+                else {
+                    ConsoleHelper.writeMessage("Incorrect data");
+                }
             }
 
             else {
-                if (cardNumber.equals(tempCardNumber) && pin.equals(tempPin)) {
-                    ConsoleHelper.writeMessage("Верификация пройдена успешно");
-                    break;
-                }
-
+                ConsoleHelper.writeMessage("Incorrect data");
             }
 
         }

@@ -19,10 +19,10 @@ class DepositCommand implements Command {
         } catch (InterruptOperationException e) {
             e.printStackTrace();
         }
-        CurrencyManipulator currentMon = CurrencyManipulatorFactory.getManipulatorByCurrencyCode(code);
-        currentMon.addAmount(Integer.parseInt(arg[0]), Integer.parseInt(arg[1]));
+        CurrencyManipulator currencyManipulator = CurrencyManipulatorFactory.getManipulatorByCurrencyCode(code);
+        currencyManipulator.addAmount(Integer.parseInt(arg[0]), Integer.parseInt(arg[1]));
 
-        System.out.println(currentMon.getTotalAmount());
+        System.out.println(currencyManipulator.getTotalAmount());
 
 
     }

@@ -8,10 +8,10 @@ class ExitCommand implements Command {
 
     @Override
     public void execute() throws InterruptOperationException {
-        ConsoleHelper.writeMessage("\nВыйти ?  (y/n)");
+        ConsoleHelper.writeMessage("\nExit ?  (y/n)");
 
         if (ConsoleHelper.readString().equals("yes"))
-            ConsoleHelper.writeMessage("Завершение работы");
+            ConsoleHelper.writeMessage("ShutDown...");
     }
 
 

@@ -98,7 +98,7 @@ public class CurrencyManipulator {
 
             denominations.clear();
             denominations.putAll(temp);
-            ConsoleHelper.writeMessage("Транзакция успешно завершена");
+            ConsoleHelper.writeMessage("Transaction complete successfully");
         }
         return result;
     }

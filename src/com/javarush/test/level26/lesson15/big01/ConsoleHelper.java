@@ -23,7 +23,7 @@ public class ConsoleHelper {
         try
         {
             message = reader.readLine();
-            if (message.equalsIgnoreCase("operation.EXIT"))
+            if (message.equalsIgnoreCase("EXIT"))
                 throw new InterruptOperationException();
         }
         catch (IOException ignored)
@@ -37,10 +37,10 @@ public class ConsoleHelper {
 
         String s;
         while (true) {
-            writeMessage("Введите код валюты: ");
+            writeMessage("Enter CurrencyCode: ");
             s = readString();
             if (s.length() != 3) {
-                writeMessage("Data incorrect. Retry");
+                writeMessage("Incorrect Data");
             }
             else {
                 s = s.toUpperCase();
