@@ -1,6 +1,7 @@
 package com.javarush.test.level26.lesson15.big01.command;
 
 
+import com.javarush.test.level26.lesson15.big01.CashMachine;
 import com.javarush.test.level26.lesson15.big01.ConsoleHelper;
 import com.javarush.test.level26.lesson15.big01.CurrencyManipulator;
 import com.javarush.test.level26.lesson15.big01.CurrencyManipulatorFactory;
@@ -8,15 +9,19 @@ import com.javarush.test.level26.lesson15.big01.exception.InterruptOperationExce
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.ResourceBundle;
 
 class InfoCommand implements Command {
+
+    private ResourceBundle res = ResourceBundle.getBundle(CashMachine.RESOURCE_PATH + "info_en");
 
     @Override
     public void execute() throws InterruptOperationException {
 
+        ConsoleHelper.writeMessage(res.getString("before"));
         Collection map = CurrencyManipulatorFactory.getAllCurrencyManipulators();
         if (map.size()==0 || map.isEmpty())
-            ConsoleHelper.writeMessage("No money available.\n");
+            ConsoleHelper.writeMessage(res.getString("no.money"));
         else {
             int count = 0;
             for (Iterator<CurrencyManipulator> iterator = map.iterator(); iterator.hasNext(); )
@@ -28,7 +33,8 @@ class InfoCommand implements Command {
                     ConsoleHelper.writeMessage( pair.getCurrencyCode()+ " - " + pair.getTotalAmount());
                 }
             }
-            if (count == 0) ConsoleHelper.writeMessage("No money available.\n");
+            if (count == 0)
+                ConsoleHelper.writeMessage(res.getString("no.money"));
         }
 
     }

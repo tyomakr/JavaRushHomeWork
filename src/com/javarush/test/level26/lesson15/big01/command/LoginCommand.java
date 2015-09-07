@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 class LoginCommand implements Command {
 
     private ResourceBundle validCreditCards = ResourceBundle.getBundle(CashMachine.RESOURCE_PATH + "verifiedCards");
+    private ResourceBundle res = ResourceBundle.getBundle(CashMachine.RESOURCE_PATH + "login_en");
 
     @Override
     public void execute() throws InterruptOperationException {
@@ -17,25 +18,28 @@ class LoginCommand implements Command {
         String cardNumber;
         String pin;
 
+        ConsoleHelper.writeMessage(res.getString("before"));
 
         while (true) {
 
-            ConsoleHelper.writeMessage("Enter CardNumber and PIN");
+            ConsoleHelper.writeMessage(res.getString("specify.data"));
             cardNumber = ConsoleHelper.readString();
             pin = ConsoleHelper.readString();
 
             if (validCreditCards.containsKey(cardNumber)) {
 
                 if (validCreditCards.getString(cardNumber).equals(pin)) {
-                    ConsoleHelper.writeMessage("Verification complete successfully");
+                    ConsoleHelper.writeMessage(res.getString("success.format"));
                     break;
                 }
                 else {
-                    ConsoleHelper.writeMessage("Incorrect data");
+                    ConsoleHelper.writeMessage(res.getString("not.verified.format"));
+                    ConsoleHelper.writeMessage(res.getString("try.again.or.exit"));
                 }
             }
             else {
-                ConsoleHelper.writeMessage("Incorrect data");
+                ConsoleHelper.writeMessage(res.getString("not.verified.format"));
+                ConsoleHelper.writeMessage(res.getString("try.again.with.details"));
             }
         }
     }

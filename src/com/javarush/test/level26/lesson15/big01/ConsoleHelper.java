@@ -6,9 +6,11 @@ import com.javarush.test.level26.lesson15.big01.exception.InterruptOperationExce
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ResourceBundle;
 
 public class ConsoleHelper {
 
+    private static ResourceBundle res = ResourceBundle.getBundle(CashMachine.RESOURCE_PATH + "common_en");
 
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -23,7 +25,7 @@ public class ConsoleHelper {
         try
         {
             message = reader.readLine();
-            if (message.equalsIgnoreCase("EXIT"))
+            if (message.equalsIgnoreCase(res.getString("operation.EXIT")))
                 throw new InterruptOperationException();
         }
         catch (IOException ignored)
@@ -37,10 +39,10 @@ public class ConsoleHelper {
 
         String s;
         while (true) {
-            writeMessage("Enter CurrencyCode: ");
+            writeMessage(res.getString("choose.currency.code"));
             s = readString();
             if (s.length() != 3) {
-                writeMessage("Incorrect Data");
+                writeMessage(res.getString("invalid.data"));
             }
             else {
                 s = s.toUpperCase();
@@ -56,7 +58,7 @@ public class ConsoleHelper {
     public static String[] getValidTwoDigits(String currencyCode) throws InterruptOperationException {
 
         String[] array;
-        writeMessage("Введите номинал и кол-во банкнот: ");
+        writeMessage(res.getString("choose.denomination.and.count.format"));
 
         while (true)
         {
@@ -71,12 +73,12 @@ public class ConsoleHelper {
             }
             catch (Exception e)
             {
-                writeMessage("incorrect data");
+                writeMessage(res.getString("invalid.data"));
                 continue;
             }
             if (k <= 0 || l <= 0 || array.length > 2)
             {
-                writeMessage("incorrect data");
+                writeMessage(res.getString("invalid.data"));
                 continue;
             }
             break;
@@ -93,9 +95,13 @@ public class ConsoleHelper {
             if (Integer.parseInt(line) > 0 && Integer.parseInt(line) < 5)
                 return Operation.getAllowableOperationByOrdinal(Integer.parseInt(line));
             else
-                writeMessage("incorrect data");
+                writeMessage(res.getString("invalid.data"));
         }
     }
 
 
+    public static void printExitMessage() {
+
+        ConsoleHelper.writeMessage(res.getString("the.end"));
+    }
 }
