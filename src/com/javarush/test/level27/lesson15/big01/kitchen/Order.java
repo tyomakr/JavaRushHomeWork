@@ -16,6 +16,7 @@ public class Order {
     public Order(Tablet tablet) throws IOException {
         this.tablet = tablet;
         this.dishes = ConsoleHelper.getAllDishesForOrder();
+
     }
 
 
@@ -27,6 +28,22 @@ public class Order {
         else {
             return "Your order: " + dishes.toString() +" of "+  tablet.toString();
         }
+
+    }
+
+    public boolean isEmpty() {
+        return dishes.isEmpty();
+    }
+
+    public int getTotalCookingTime() {
+
+        int totalTime = 0;
+
+        for (int i = 0; i < dishes.size(); i++) {
+            totalTime = dishes.get(i).getDuration() + totalTime;
+        }
+
+        return totalTime;
 
     }
 }

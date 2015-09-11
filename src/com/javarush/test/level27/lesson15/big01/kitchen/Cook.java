@@ -16,8 +16,6 @@ public class Cook extends Observable implements Observer{
     }
 
 
-
-
     @Override
     public String toString() {
         return name;
@@ -29,7 +27,7 @@ public class Cook extends Observable implements Observer{
         if (o instanceof Order)
         {
             Order order = (Order) o;
-            ConsoleHelper.writeMessage("Start cooking - " + o);
+            ConsoleHelper.writeMessage("Start cooking - " + order + ", cooking time " + order.getTotalCookingTime() + "min");
             setChanged();
             notifyObservers(order);
         }

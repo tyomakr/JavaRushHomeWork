@@ -48,7 +48,7 @@ public class ConsoleHelper {
                 }
 
                 catch (IllegalArgumentException e) {
-                    writeMessage(str + "не найден");
+                    writeMessage(str + " is not detected");
                 }
             }
         }
