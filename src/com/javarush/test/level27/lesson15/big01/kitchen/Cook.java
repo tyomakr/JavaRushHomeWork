@@ -1,8 +1,6 @@
 package com.javarush.test.level27.lesson15.big01.kitchen;
 
-
 import com.javarush.test.level27.lesson15.big01.ConsoleHelper;
-
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,6 +26,8 @@ public class Cook extends Observable implements Observer{
         {
             Order order = (Order) o;
             ConsoleHelper.writeMessage("Start cooking - " + order + ", cooking time " + order.getTotalCookingTime() + "min");
+
+
             setChanged();
             notifyObservers(order);
         }
