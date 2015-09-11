@@ -6,7 +6,7 @@ import com.javarush.test.level27.lesson15.big01.ConsoleHelper;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Cook implements Observer {
+public class Cook extends Observable implements Observer{
 
     private final String name;
 
@@ -16,14 +16,23 @@ public class Cook implements Observer {
     }
 
 
+
+
     @Override
     public String toString() {
         return name;
     }
 
     @Override
-    public void update(Observable observable, Object arg) {
-        ConsoleHelper.writeMessage("Start cooking - " + arg);
+    public void update(Observable observable, Object o)
+    {
+        if (o instanceof Order)
+        {
+            Order order = (Order) o;
+            ConsoleHelper.writeMessage("Start cooking - " + o);
+            setChanged();
+            notifyObservers(order);
+        }
     }
 
 }
