@@ -20,8 +20,7 @@ public class Cook extends Observable implements Observer{
     }
 
     @Override
-    public void update(Observable observable, Object o)
-    {
+    public void update(Observable observable, Object o) {
         if (o instanceof Order)
         {
             Order order = (Order) o;
