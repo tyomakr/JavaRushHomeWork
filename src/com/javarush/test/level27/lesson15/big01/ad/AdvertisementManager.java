@@ -15,6 +15,9 @@ public class AdvertisementManager {
     }
 
     public void processVideos() {
+
+        //сортируем ролики в хранилище в порядке уменьшения стоимости показа одного рекламного ролика
+        //и увеличению стоимости показа в тысячных частях копейки
         Collections.sort(storage.list(), new Comparator<Advertisement>() {
 
             @Override
@@ -31,11 +34,14 @@ public class AdvertisementManager {
         });
 
         int timeLeft = timeSeconds;
+        //перебираем ролики в хранилище,
         for (Advertisement advertisement : storage.list()) {
+
+            //если оставшееся время показа меньше, чем текущий ролик в цикле - переходим к следующему
             if (timeLeft < advertisement.getDuration()) {
                 continue;
             }
-
+            //показ ролика
             ConsoleHelper.writeMessage(advertisement.getName() + " is displaying... "
                     + advertisement.getAmountPerOneDisplaying() + ", "
                     + advertisement.getAmountPerOneDisplaying() * 1000 / advertisement.getDuration());
@@ -44,6 +50,7 @@ public class AdvertisementManager {
             advertisement.revalidate();
         }
 
+        // если не осталось времени для показа
         if (timeLeft == timeSeconds) {
             throw new NoVideoAvailableException();
         }
