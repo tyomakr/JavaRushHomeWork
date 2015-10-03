@@ -1,8 +1,9 @@
 package com.javarush.test.level28.lesson15.big01;
 
-
 import com.javarush.test.level28.lesson15.big01.model.Provider;
+import com.javarush.test.level28.lesson15.big01.vo.Vacancy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Controller {
@@ -22,5 +23,19 @@ public class Controller {
         return "Controller{" +
                 "providers=" + Arrays.toString(providers) +
                 '}';
+    }
+
+    public void scan() {
+        ArrayList<Vacancy> vacancies = new ArrayList<>();
+
+        try {
+            for (Provider provider: providers) {
+                for (Vacancy vacancy : provider.getJavaVacancies("TEXT")) {
+                    vacancies.add(vacancy);
+                }
+            }
+        } catch (NullPointerException e) {
+            System.out.println(vacancies.size());
+        }
     }
 }
