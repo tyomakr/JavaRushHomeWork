@@ -30,7 +30,7 @@ public class Controller {
 
         try {
             for (Provider provider: providers) {
-                for (Vacancy vacancy : provider.getJavaVacancies("Java")) {
+                for (Vacancy vacancy : provider.getJavaVacancies("Odessa")) {
                     vacancies.add(vacancy);
                 }
             }
