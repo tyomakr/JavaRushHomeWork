@@ -8,6 +8,8 @@ import java.util.List;
 
 public class HtmlView implements View {
 
+    private final String filePath = "./src/" + this.getClass().getPackage().getName().replace('.', '/') + "/vacancies.html";
+
     private Controller controller;
 
     @Override
