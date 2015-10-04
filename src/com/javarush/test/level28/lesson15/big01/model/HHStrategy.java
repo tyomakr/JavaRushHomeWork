@@ -16,7 +16,7 @@ public class HHStrategy implements Strategy {
     public List<Vacancy> getVacancies(String searchString) {
 
         try {
-            Document doc = Jsoup.connect(URL_FORMAT).get();
+            Document doc = Jsoup.connect(URL_FORMAT).userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36").referrer("http://hhcdn.ru/livetex").get();
         }
         catch (Exception e) {}
 
