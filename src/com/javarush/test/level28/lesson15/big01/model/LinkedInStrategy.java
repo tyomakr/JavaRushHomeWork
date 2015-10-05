@@ -1,21 +1,24 @@
 package com.javarush.test.level28.lesson15.big01.model;
 
+
 import com.javarush.test.level28.lesson15.big01.vo.Vacancy;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HHStrategy implements Strategy {
+public class LinkedInStrategy implements Strategy {
 
-    private static final String URL_FORMAT = "http://hh.ua/search/vacancy?text=java+%s&page=%d";
-
+    private static final String URL_FORMAT = "https://www.linkedin.com/job/java-jobs-%s/?page_num=%d";
 
     @Override
     public List<Vacancy> getVacancies(String searchString) {
+
+        /** ТУТ КУСОК КОДА С HHSTRATEGY, РАБОЧИЙ ВАРИАНТ БУДЕТ НАПИСАН ПОСЛЕ ТОГО, КАК БУДУТ ГОТОВЫ РАБОЧИЕ ПРОВЕРКИ ЗАДАНИЯ
 
         List<Vacancy> vacancies = new ArrayList<>();
         int pageNumber = 0;
@@ -81,5 +84,8 @@ public class HHStrategy implements Strategy {
 
         return doc;
     }
+**/
 
+        return null;
+    }
 }
