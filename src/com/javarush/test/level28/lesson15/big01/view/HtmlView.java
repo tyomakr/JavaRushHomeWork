@@ -19,10 +19,26 @@ public class HtmlView implements View {
 
     @Override
     public void update(List<Vacancy> vacancies) {
-        System.out.println(vacancies.size());
+
+        System.out.println(vacancies.size()); //пока не удал€ю
+
+
+
+
+
     }
 
     public void userCitySelectEmulationMethod() {
         controller.onCitySelect("Odessa");
     }
+
+    private String getUpdatedFileContent(List<Vacancy> list) {
+        return null;
+    }
+
+    private void updateFile(String s) {
+    }
+
+
+
 }
