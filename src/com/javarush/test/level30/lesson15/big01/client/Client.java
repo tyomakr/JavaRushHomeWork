@@ -117,7 +117,37 @@ public class Client {
     /** SocketThread **/
     public class SocketThread extends Thread {
 
-    }
+        /** Methods **/
 
+        /** должен выводить текст message в консоль **/
+        protected void processIncomingMessage(String message) {
+            ConsoleHelper.writeMessage(message);
+        }
+
+
+        /** должен выводить в консоль информацию о том, что участник с именем userName присоединился к чату **/
+        protected void informAboutAddingNewUser(String userName) {
+            ConsoleHelper.writeMessage("участник " + userName + " присоединился к чату");
+        }
+
+
+        /**  должен выводить в консоль, что участник с именем userName покинул чат **/
+        protected void informAboutDeletingNewUser(String userName) {
+            ConsoleHelper.writeMessage("участник " + userName + " покинул чат");
+        }
+
+
+        /** Устанавливать значение поля clientConnected класса Client в соответствии с
+         переданным параметром.
+            Оповещать (пробуждать ожидающий) основной поток класса Client **/
+        protected void notifyConnectionStatusChanged(boolean clientConnected) {
+
+            Client.this.clientConnected = clientConnected;
+
+            synchronized (Client.this) {
+                Client.this.notify();
+            }
+        }
+    }
 }
 
