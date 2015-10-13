@@ -23,7 +23,7 @@ public class Connection implements Closeable {
     }
 
 
-    public void send(Message message) throws IOException {                             ///????
+    public void send(Message message) throws IOException {
 
         synchronized (out) {
             out.writeObject(message);
@@ -34,7 +34,7 @@ public class Connection implements Closeable {
     }
 
 
-    public Message receive() throws IOException, ClassNotFoundException {                 ///????
+    public Message receive() throws IOException, ClassNotFoundException {
 
         Message message;
 
@@ -59,45 +59,4 @@ public class Connection implements Closeable {
         socket.close();
     }
 
-
-
 }
-/*
-“ак! ¬ потоке каждого сокета храним очередь?!! ј отдельный поток будет читать эти очереди??!!
-“огда вопрос каким образом оптимальнее(быстрее) проводить эту пердачу?
-я вот передаю так:
-private void messageToObjectOutput(Message mes) throws IOException {
-ObjectOutputStream oos = new ObjectOutputStream(pout);
-synchronized(mes) {
-oos.writeObject(mes);
-oos.flush();
-pout.flush();
-}
-}
-pout это PipedOutputStream
-
-а принимаю : ObjectInputStream ois = new ObjectInputStream(pin);
-Message mes = (Message)ois.readObject(); pin PipedInputStream
- */
-
-/*
-ƒобавь в класс Connection:
-
-5.3.	ћетод void send(Message message) throws IOException. ќн должен записывать
-(сериализовать) сообщение message в ObjectOutputStream. Ётот метод будет
-вызыватьс€ из нескольких потоков. ѕозаботьс€, чтобы запись в объект
-ObjectOutputStream была возможна только одним потоком в определенный момент
-времени, остальные желающие ждали завершени€ записи. ѕри этом другие методы
-класса Connection не должны быть заблокированы.
-
-
-5.4.	ћетод Message receive() throws IOException, ClassNotFoundException. ќн должен читать
-(десериализовать) данные из ObjectInputStream. —делай так, чтобы операци€ чтени€
-не могла быть одновременно вызвана несколькими потоками, при этом вызов других
-методы класса Connection не блокировать.
-
-5.5.	ћетод SocketAddress getRemoteSocketAddress(), возвращающий удаленный адрес
-сокетного соединени€.
-5.6.	ћетод void close() throws IOException, который должен закрывать все ресурсы класса.
- ласс Connection должен реализовывать интерфейс Closeable.
- */
