@@ -119,6 +119,75 @@ public class Client {
 
         /** Methods **/
 
+        /** Ётот метод будет реализовывать главный цикл обработки сообщений сервера **/
+        protected void clientMainLoop() throws IOException, ClassNotFoundException {
+
+            while (true) {
+
+                // ¬ цикле получать сообщени€, использу€ соединение connection
+                Message message = connection.receive();
+
+                switch (message.getType()) {
+
+                    // ≈сли это текстовое сообщение (тип TEXT), обработай его с помощью метода processIncomingMessage()
+                    case TEXT:
+                        processIncomingMessage(message.getData());
+                        break;
+
+                    // ≈сли это сообщение с типом USER_ADDED, обработай его с помощью метода informAboutAddingNewUser()
+                    case USER_ADDED:
+                        informAboutAddingNewUser(message.getData());
+                        break;
+
+                    // ≈сли это сообщение с типом USER_REMOVED, обработай его с помощью метода informAboutDeletingNewUser()
+                    case USER_REMOVED:
+                        informAboutDeletingNewUser(message.getData());
+                        break;
+
+                    default:
+                        throw new IOException("Unexpected MessageType");
+                }
+            }
+        }
+
+
+        /** clientHandshake **/
+        protected void clientHandshake() throws IOException, ClassNotFoundException {
+
+            while (true) {
+
+                // ¬ цикле получать сообщени€, использу€ соединение connection
+                Message message = connection.receive();
+
+                switch (message.getType()) {
+
+                    // 	≈сли тип полученного сообщени€ NAME_REQUEST (сервер запросил им€)
+                    case NAME_REQUEST: {
+
+                        // запросить ввод имени пользовател€ с помощью метода getUserName()
+                        // создать новое сообщение с типом USER_NAME и введенным именем, отправить сообщение серверу.
+                        String userName = getUserName();
+                        connection.send(new Message(MessageType.USER_NAME, userName));
+                        break;
+                    }
+
+                    // ≈сли тип полученного сообщени€ NAME_ACCEPTED (сервер прин€л им€)
+                    case NAME_ACCEPTED: {
+
+                        // значит сервер прин€л им€ клиента, нужно об этом сообщить главному потоку, он этого очень ждет.
+                        // —делай это с помощью метода notifyConnectionStatusChanged(), передав в него true. ѕосле этого выйди из метода.
+                        notifyConnectionStatusChanged(true);
+                        return;
+                    }
+
+                    default: {
+                        throw new IOException("Unexpected MessageType");
+                    }
+                }
+            }
+        }
+
+
         /** должен выводить текст message в консоль **/
         protected void processIncomingMessage(String message) {
             ConsoleHelper.writeMessage(message);
