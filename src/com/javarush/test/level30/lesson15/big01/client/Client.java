@@ -13,7 +13,57 @@ public class Client {
     private volatile boolean clientConnected = false;
 
 
+    /** PSVM Client **/
+    public static void main(String[] args) {
+
+        Client client = new Client();
+        client.run();
+    }
+
+
     /** Methods **/
+    /** run **/
+    public void run() {
+
+        // Создавать новый сокетный поток с помощью метода getSocketThread
+        SocketThread socketThread = getSocketThread();
+        // Помечать созданный поток как daemon, это нужно для того, чтобы при выходе
+        // из программы вспомогательный поток прервался автоматически.
+        socketThread.setDaemon(true);
+        // Запустить вспомогательный поток
+        socketThread.start();
+
+        // Заставить текущий поток ожидать, пока он не получит нотификацию из другого потока
+        try {
+            synchronized (this) {
+                this.wait();
+            }
+        } catch (InterruptedException e) {
+            ConsoleHelper.writeMessage("Ошбка");
+            return;
+        }
+
+        //После того, как поток дождался нотификации, проверь значение clientConnected
+        if (clientConnected) {
+            ConsoleHelper.writeMessage("Соединение установлено. Для выхода наберите команду 'exit'.");
+
+            //Считывай сообщения с консоли пока клиент подключен. Если будет введена команда 'exit', то выйди из цикла
+            String msg;
+            while (!(msg = ConsoleHelper.readString()).equals("exit") && clientConnected) {
+
+                // После каждого считывания, если метод shouldSentTextFromConsole()
+                // возвращает true, отправь считанный текст с помощью метода  sendTextMessage().
+                if (shouldSentTextFromConsole()) {
+                    sendTextMessage(msg);
+                }
+            }
+        }
+        else {
+            ConsoleHelper.writeMessage("Произошла ошибка во время работы клиента.");
+        }
+    }
+
+
     /** Должен запросить ввод адреса сервера и вернуть введенное значение**/
     protected String getServerAddress() {
 
@@ -61,7 +111,6 @@ public class Client {
             ConsoleHelper.writeMessage("Ошибка отправки");
             clientConnected = false;
         }
-
     }
 
 
@@ -71,3 +120,4 @@ public class Client {
     }
 
 }
+
