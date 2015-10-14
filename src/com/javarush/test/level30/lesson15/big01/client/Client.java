@@ -49,13 +49,14 @@ public class Client {
             ConsoleHelper.writeMessage("Соединение установлено. Для выхода наберите команду 'exit'.");
 
             //Считывай сообщения с консоли пока клиент подключен. Если будет введена команда 'exit', то выйди из цикла
-            String msg;
-            while (!(msg = ConsoleHelper.readString()).equals("exit") && clientConnected) {
-
-                // После каждого считывания, если метод shouldSentTextFromConsole()
-                // возвращает true, отправь считанный текст с помощью метода  sendTextMessage().
-                if (shouldSentTextFromConsole()) {
-                    sendTextMessage(msg);
+            while (clientConnected) {
+                String message;
+                if (!(message = ConsoleHelper.readString()).equals("exit")) {
+                    if (shouldSentTextFromConsole()) {
+                        sendTextMessage(message);
+                    }
+                } else {
+                    return;
                 }
             }
         }
@@ -118,8 +119,6 @@ public class Client {
     /** SocketThread **/
     public class SocketThread extends Thread {
 
-        Connection connection;
-
         /** Methods **/
         public void run() {
 
@@ -128,7 +127,7 @@ public class Client {
                 Socket socket = new Socket(getServerAddress(), getServerPort());
 
                 // Создай объект класса Connection, используя сокет
-                connection = new Connection(socket);
+                Client.this.connection = new Connection(socket);
 
 
                 clientHandshake();
@@ -141,23 +140,6 @@ public class Client {
                 notifyConnectionStatusChanged(false);
             }
 
-            /*
-            Последний, но самый главный метод класса SocketThread – это метод void run(). Добавь
-его. Его реализация с учетом уже созданных методов выглядит очень просто. Давай
-напишем ее:
-17.1.	Запроси адрес и порт сервера с помощью методов getServerAddress() и
-getServerPort().
-17.2.	Создай новый объект класса java.net.Socket, используя данные, полученные в
-п.17.1.
-17.3.	Создай объект класса Connection, используя сокет из п.17.2.
-17.4.	Вызови метод, реализующий "рукопожатие" клиента с сервером
-(clientHandshake()).
-17.5.	Вызови метод, реализующий основной цикл обработки сообщений сервера.
-17.6.	При возникновении исключений IOException или ClassNotFoundException
-сообщи главному потоку о проблеме, используя notifyConnectionStatusChanged и false
-в качестве параметра.
-Клиент готов, можешь запустить сервер, несколько клиентов и проверить как все работает.
-             */
         }
 
 
@@ -252,6 +234,7 @@ getServerPort().
          переданным параметром.
             Оповещать (пробуждать ожидающий) основной поток класса Client **/
         protected void notifyConnectionStatusChanged(boolean clientConnected) {
+
 
             Client.this.clientConnected = clientConnected;
 
