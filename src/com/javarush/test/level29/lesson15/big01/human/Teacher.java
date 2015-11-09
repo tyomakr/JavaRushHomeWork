@@ -20,7 +20,10 @@ public class Teacher extends UniversityPerson {
     public void teach() {
     }
 
-    public void printData() {
-        System.out.println("Преподаватель: " + name);
+
+
+    @Override
+    public String getPosition() {
+        return "Преподаватель";
     }
 }

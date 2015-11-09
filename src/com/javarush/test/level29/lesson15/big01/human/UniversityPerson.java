@@ -6,12 +6,9 @@ public class UniversityPerson extends Human {
     private University university;
 
 
-
-
     public UniversityPerson(String name, int age) {
         super(name, age);
     }
-
 
 
     public University getUniversity() {
