@@ -3,10 +3,11 @@ package com.javarush.test.level29.lesson15.big01.human;
 import java.util.Date;
 
 
-public class Student extends Human {
+public class Student extends Human implements Alive {
 
     private double averageGrade;
     private String university;
+    private int course;
     private Date beginningOfSession;
     private Date endOfSession;
 
@@ -67,5 +68,9 @@ public class Student extends Human {
 
     public double getAverageGrade() {
         return averageGrade;
+    }
+
+    public int getCourse() {
+        return course;
     }
 }
