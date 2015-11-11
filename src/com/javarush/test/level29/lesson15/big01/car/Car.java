@@ -18,26 +18,23 @@ public class Car {
     private boolean driverAvailable;
     private int numberOfPassengers;
 
-    public Car(int type, int numberOfPassengers) {
+    protected Car(int type, int numberOfPassengers) {
         this.type = type;
         this.numberOfPassengers = numberOfPassengers;
     }
 
-    public int fill(double numberOfLiters)
-    {
+    public int fill(double numberOfLiters) {
         if (numberOfLiters < 0)
             return -1;
         fuel += numberOfLiters;
         return 0;
     }
 
-    public double getTripConsumption(Date date, int length, Date SummerStart, Date SummerEnd)
-    {
+    public double getTripConsumption(Date date, int length, Date SummerStart, Date SummerEnd) {
         double consumption;
         if (date.before(SummerStart) || date.after(SummerEnd)) {
             consumption = length * winterFuelConsumption + winterWarmingUp;
-        }
-        else {
+        } else {
             consumption = length * summerFuelConsumption;
         }
         return consumption;
@@ -81,5 +78,19 @@ public class Car {
         if (type == SEDAN)
             return 120;
         return 90;
+    }
+
+    public static Car create(int type, int numberOfPassengers) {
+        switch (type) {
+            case CABRIOLET:
+                return new Cabriolet(numberOfPassengers);
+            case SEDAN:
+                return new Sedan(numberOfPassengers);
+            case TRUCK:
+                return new Truck(numberOfPassengers);
+            default:
+                return null;
+        }
+
     }
 }
