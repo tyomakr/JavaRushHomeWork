@@ -1,12 +1,12 @@
 package com.javarush.test.level29.lesson15.big01.user;
 
 public class User {
+
     private String name;
     private String surname;
     private int age;
-    private boolean isMan;
+    private boolean man;
     private Address address;
-
     private Work work;
 
     public User(String name, String surname, int age) {
@@ -77,10 +77,10 @@ public class User {
     }
 
     public boolean isMan() {
-        return isMan;
+        return man;
     }
 
     public void setMan(boolean man) {
-        isMan = man;
+        this.man = man;
     }
 }
