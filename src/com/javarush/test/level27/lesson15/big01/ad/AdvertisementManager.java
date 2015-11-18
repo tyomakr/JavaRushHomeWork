@@ -1,7 +1,8 @@
 package com.javarush.test.level27.lesson15.big01.ad;
 
 import com.javarush.test.level27.lesson15.big01.ConsoleHelper;
-
+import com.javarush.test.level27.lesson15.big01.statistic.StatisticManager;
+import com.javarush.test.level27.lesson15.big01.statistic.event.VideoSelectedEventDataRow;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,6 +59,7 @@ public class AdvertisementManager
             sumDuration += el.getDuration();
         }
 
+        StatisticManager.getInstance().register(new VideoSelectedEventDataRow(advertisements, sumAmount, sumDuration));
 
         for (Advertisement advertisement : advertisements)
         {
