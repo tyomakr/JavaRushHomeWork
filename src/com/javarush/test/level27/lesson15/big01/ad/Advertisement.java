@@ -35,4 +35,8 @@ public class Advertisement {
             throw new UnsupportedOperationException();
         hits--;
     }
+
+    public int getHits() {
+        return hits;
+    }
 }
