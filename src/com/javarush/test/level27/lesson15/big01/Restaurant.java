@@ -8,6 +8,7 @@ public class Restaurant {
 
     public static void main(String[] args) {
 
+
         Cook cook = new Cook("Amigo");
         Tablet tablet = new Tablet(5);
         Waitor waitor = new Waitor();
@@ -25,8 +26,6 @@ public class Restaurant {
         directorTablet.printCookWorkloading();
         directorTablet.printActiveVideoSet();
         directorTablet.printArchivedVideoSet();
-
-
 
 
     }

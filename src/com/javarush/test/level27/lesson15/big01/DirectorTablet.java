@@ -1,12 +1,12 @@
 package com.javarush.test.level27.lesson15.big01;
 
 
-        import com.javarush.test.level27.lesson15.big01.statistic.StatisticManager;
+import com.javarush.test.level27.lesson15.big01.statistic.StatisticManager;
 
-        import java.text.DateFormat;
-        import java.text.SimpleDateFormat;
-        import java.util.Date;
-        import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
 
 public class DirectorTablet {
 
@@ -15,7 +15,7 @@ public class DirectorTablet {
     public void printAdvertisementProfit(){
 
         double sum = 0;
-        for (Map.Entry<Date, Long> el : StatisticManager.getInstance().getVideoProfit().entrySet()) {
+        for (Map.Entry<Date, Double> el : StatisticManager.getInstance().getVideoProfit().entrySet()) {
             ConsoleHelper.writeMessage(String.format("%s - %.2f", dateFormat.format(el.getKey()), el.getValue() * 1.0 / 100));
             sum += el.getValue();
         }
@@ -24,7 +24,7 @@ public class DirectorTablet {
 
     public void printCookWorkloading(){
 
-        for (Map.Entry<Date, Map<String, Integer>> el : StatisticManager.getInstance().getCookedTime().entrySet())
+        for (Map.Entry<Date, Map<String, Integer>> el : StatisticManager.getInstance().getCookWorkloading().entrySet())
         {
             ConsoleHelper.writeMessage(String.format("%s", dateFormat.format(el.getKey())));
             for (Map.Entry<String, Integer> el2 : el.getValue().entrySet())

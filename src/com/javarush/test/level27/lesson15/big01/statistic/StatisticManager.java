@@ -24,7 +24,7 @@ public class StatisticManager
         return ourInstance;
     }
 
-    private static Date getStartOfDay(Date date)
+    private static Date getDay(Date date)
     {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -45,70 +45,67 @@ public class StatisticManager
         cooks.add(cook);
     }
 
-    public Map<Date, Map<String, Integer>> getCookedTime()
-    {
 
-        Map<Date, Map<String, Integer>> arr = new TreeMap<>(new Comparator()
-        {
-            @Override
-            public int compare(Object o1, Object o2)
-            {
-                return ((Date) o2).compareTo((Date) o1);
-            }
-        });
+    public Map<Date, Map<String, Integer>> getCookWorkloading() {
+        List<EventDataRow> eventDataRows = storage.get(EventType.COOKED_ORDER);
+        Map<Date, Map<String, Integer>> result = new TreeMap<>(new ComparatorDate());
 
-        for (EventDataRow el : storage.getData(EventType.COOKED_ORDER))
-        {
+        for (EventDataRow eventDataRow : eventDataRows) {
 
-            CookedOrderEventDataRow el2 = (CookedOrderEventDataRow) el;
-            Date temp = getStartOfDay(el.getDate());
-            if (arr.containsKey(temp))
-            {
-                Map<String, Integer> dd = arr.get(temp);
-                String cookName = el2.getCookName();
-                if (dd.containsKey(cookName))
-                {
-                    Integer dd2 = dd.get(cookName);
-                    dd.put(cookName, dd2.intValue() + el.getTime());
-                } else
-                {
-                    dd.put(cookName, el.getTime());
+            if (eventDataRow == null) continue;
+            CookedOrderEventDataRow cookEvent = (CookedOrderEventDataRow) eventDataRow;
+            Map<String, Integer> treeMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+            Date date = getDay(cookEvent.getDate());
+
+            int workTime = cookEvent.getTime();
+
+            if (workTime == 0) continue;
+
+            workTime = (workTime + 59) / 60;
+            String cookName = cookEvent.getCookName();
+
+            if (result.containsKey(date)) {
+                treeMap = result.get(date);
+
+                if (treeMap.containsKey(cookName)) {
+                    workTime += treeMap.get(cookName);
                 }
-                arr.put(temp, dd);
-            } else
-            {
-                Map<String, Integer> dd = new TreeMap<>();
-                dd.put(el2.getCookName(), el2.getTime());
-                arr.put(temp, dd);
             }
+
+            treeMap.put(cookName, workTime);
+            result.put(date, treeMap);
         }
-        return arr;
+        return result;
+    }
+    public Map<Date, Double> getVideoProfit() {
+        Map<Date, Double> resultMap = new TreeMap<>(new ComparatorDate());
+        List<EventDataRow> listEvent = storage.get(EventType.SELECTED_VIDEOS);
+        for (EventDataRow v : listEvent) {
+
+            if (listEvent == null) continue;
+            VideoSelectedEventDataRow videoEvent = (VideoSelectedEventDataRow) v;
+            Date date = getDay(videoEvent.getDate());
+            long amount = videoEvent.getAmount();
+
+            if (amount==0) continue;
+            double profit = amount * 1d / 100d;
+
+            if (resultMap.containsKey(date)) {
+                profit += resultMap.get(date);
+            }
+            resultMap.put(date, profit);
+        }
+        return resultMap;
     }
 
-    public Map<Date, Long> getVideoProfit()
-    {
-        Map<Date, Long> arr = new TreeMap<>(new Comparator()
-        {
-            @Override
-            public int compare(Object o1, Object o2)
-            {
-                return ((Date) o2).compareTo((Date) o1);
-            }
-        });
-        for (EventDataRow el : storage.getData(EventType.SELECTED_VIDEOS))
-        {
-            Date temp = getStartOfDay(el.getDate());
-            if (arr.containsKey(temp))
-            {
-                Long dd = arr.get(temp);
-                arr.put(temp, new Long(dd.longValue() + ((VideoSelectedEventDataRow) el).getAmount()));
-            } else
-            {
-                arr.put(temp, new Long(((VideoSelectedEventDataRow) el).getAmount()));
-            }
+
+    private class ComparatorDate implements Comparator<Date> {
+        @Override
+        public int compare(Date o1, Date o2) {
+            return o2.compareTo(o1);
         }
-        return arr;
     }
+
 
     private static class StatisticStorage
     {
@@ -132,6 +129,11 @@ public class StatisticManager
         {
             return new ArrayList<>(eventTypeListMap.get(eventType));
         }
+
+        private List<EventDataRow> get(EventType eventType) {
+            return eventTypeListMap.get(eventType);
+        }
+
     }
 
 

@@ -1,13 +1,13 @@
 package com.javarush.test.level27.lesson15.big01.ad;
 
-
 public class Advertisement {
+
     private Object content;
     private String name;
     private long initialAmount;
     private int hits;
     private int duration;
-    private long amountPerOneDisplaying;
+    private long amountPerOneDisplaying = 0;
 
     public Advertisement(Object content, String name, long initialAmount, int hits, int duration) {
         this.content = content;
@@ -15,7 +15,12 @@ public class Advertisement {
         this.initialAmount = initialAmount;
         this.hits = hits;
         this.duration = duration;
-        this.amountPerOneDisplaying = initialAmount / hits;
+        amountPerOneDisplaying = (long) (initialAmount * 1.0 / hits);
+    }
+
+
+    public int getHits() {
+        return hits;
     }
 
     public String getName() {
@@ -30,13 +35,18 @@ public class Advertisement {
         return amountPerOneDisplaying;
     }
 
-    public void revalidate() {
-        if (hits <= 0)
-            throw new UnsupportedOperationException();
-        hits--;
-    }
+    public void revalidate() throws UnsupportedOperationException {
 
-    public int getHits() {
-        return hits;
+        if (hits <= 0) throw new UnsupportedOperationException();
+
+        initialAmount -= amountPerOneDisplaying;
+        hits--;
+
+        if (hits > 0) {
+            amountPerOneDisplaying = (long) (initialAmount * 1.0 / hits);
+        }
+        else {
+            amountPerOneDisplaying = 0;
+        }
     }
 }
