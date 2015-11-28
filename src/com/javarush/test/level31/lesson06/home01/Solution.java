@@ -52,7 +52,6 @@ public class Solution {
     public static void zipToMap(File file)  {
 
         // Записываем содержимое архива в карту
-
         try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file))) {
 
             ZipEntry zipEntry;
@@ -67,11 +66,9 @@ public class Solution {
                 while ((count = zipInputStream.read(buffer)) != -1) {
                     byteArrayOutputStream.write(buffer, 0, count);
                 }
-
                 byte[] bytes = byteArrayOutputStream.toByteArray();
                 entryMap.put(zipEntry, bytes);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -82,58 +79,53 @@ public class Solution {
 
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(zipArchive)); FileInputStream fileInputStream = new FileInputStream(addedFile)) {
 
-            ZipEntry addingFileEntry = new ZipEntry("new/" + addedFile.getName());
+            //Маркер наличия добавляемого файла в архиве
+            boolean isExist = false;
 
-
-            //temp
+            //Сохраняем сразу в отдельный zipEntry добавляемый файл для последующего сравнения
             ZipEntry fileNameComparator = new ZipEntry(addedFile.getName());
 
 
             //Копируем zipEntry с entryMap в архив
             for (Map.Entry<ZipEntry, byte[]> zipEntry : entryMap.entrySet()) {
 
-
+                //Подрезаем путь файла для сравненияс добавляемым файлом
                 Path path = Paths.get(zipEntry.getKey().getName());
-                //Сравниваем имя добавляемого файла ....
+
+                //Сравниваем...
+                //Если имя текущего файла в zipEntry НЕ совпадает с добавлемым файлом
                 if(!(path.getFileName().toString().equals(fileNameComparator.getName()))) {
 
-                    //temp
-                    System.out.println("файл " + path.getFileName());
-                    System.out.println("Обработка файла " + zipEntry.getKey().getName());
-
-                    /*
+                    //Записываем в архив
                     zipOutputStream.putNextEntry(new ZipEntry(zipEntry.getKey().getName()));
                     zipOutputStream.write(zipEntry.getValue());
-                    */
-                }
 
+                }
+                //Если же файл с таким названием присутствует в архиве...
                 else {
-
+                    isExist = true;
                 }
-
             }
 
-            /*
+            //Если в процессе прохождения цикла в архиве нашелся файл с таким-же именем как и добавляемый..
+            if (isExist) {
+                //Добавляем файл в папку new
+                ZipEntry addingFileEntry = new ZipEntry("new/" + addedFile.getName());
+                zipOutputStream.putNextEntry(addingFileEntry);
 
-            zipOutputStream.putNextEntry(addingFileEntry);
+                //Считываем содержимое файла в массив byte
+                byte[] buffer = new byte[fileInputStream.available()];
+                fileInputStream.read(buffer);
 
-            //Считываем содержимое файла в массив byte
-            byte[] buffer = new byte[fileInputStream.available()];
-            fileInputStream.read(buffer);
+                //Добавляем содержимое к архиву
+                zipOutputStream.write(buffer);
+                //Закрываем текущую запись для новой записи
+                zipOutputStream.closeEntry();
 
-            //Добавляем содержимое к архиву
-            zipOutputStream.write(buffer);
-            //Закрываем текущую запись для новой записи
-            zipOutputStream.closeEntry();
-
-            */
-
-
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
 }
 
