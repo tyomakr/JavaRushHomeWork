@@ -2,6 +2,8 @@ package com.javarush.test.level31.lesson06.home01;
 
 import java.io.*;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -84,28 +86,29 @@ public class Solution {
 
 
             //temp
-            ZipEntry tmp = new ZipEntry(addedFile.getName());
+            ZipEntry fileNameComparator = new ZipEntry(addedFile.getName());
 
 
             //Копируем zipEntry с entryMap в архив
             for (Map.Entry<ZipEntry, byte[]> zipEntry : entryMap.entrySet()) {
 
-                //temp
-                //System.out.println("tmp = " + tmp.getName());
 
-
-
-                if(!zipEntry.getKey().getName().equals(tmp.getName())) {
+                Path path = Paths.get(zipEntry.getKey().getName());
+                //Сравниваем имя добавляемого файла ....
+                if(!(path.getFileName().toString().equals(fileNameComparator.getName()))) {
 
                     //temp
+                    System.out.println("файл " + path.getFileName());
                     System.out.println("Обработка файла " + zipEntry.getKey().getName());
-                    // тут надо simplify filepath.. после этого, можно будет сравнивать нормально файлы
 
-
-
-
+                    /*
                     zipOutputStream.putNextEntry(new ZipEntry(zipEntry.getKey().getName()));
                     zipOutputStream.write(zipEntry.getValue());
+                    */
+                }
+
+                else {
+
                 }
 
             }
