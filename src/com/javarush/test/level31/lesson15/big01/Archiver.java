@@ -1,28 +1,41 @@
 package com.javarush.test.level31.lesson15.big01;
 
-import com.javarush.test.level31.lesson15.big01.command.ExitCommand;
+import com.javarush.test.level31.lesson15.big01.exception.WrongZipFileException;
+import java.io.IOException;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.nio.file.Paths;
 
 public class Archiver {
 
     public static void main(String[] args) {
 
+        Operation operation;
+
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println("Введите полный путь к архиву: ");
-            ZipFileManager zipFileManager = new ZipFileManager(Paths.get(reader.readLine()));
+            while (true) {
+                operation = askOperation();
+                CommandExecutor.execute(operation);
+                if (operation == Operation.EXIT)
+                    break;
+            }
+        } catch (WrongZipFileException e) {
+            ConsoleHelper.writeMessage("Вы не выбрали файл архива или выбрали неверный файл.");
+        } catch (Exception message) {
+            ConsoleHelper.writeMessage("Произошла ошибка. Проверьте введенные данные.");
+        }
+    }
 
-            System.out.println("Введите путь к архивируемому файлу: ");
-            zipFileManager.createZip(Paths.get(reader.readLine()));
+    public static Operation askOperation() throws IOException {
 
-            reader.close();
+        ConsoleHelper.writeMessage("Выберите операцию:");
 
-            new ExitCommand().execute();
+        ConsoleHelper.writeMessage(" " + Operation.CREATE.ordinal() + " - упаковать файлы в архив");
+        ConsoleHelper.writeMessage(" " + Operation.ADD.ordinal() + " - добавить файл в архив");
+        ConsoleHelper.writeMessage(" " + Operation.REMOVE.ordinal() + " - удалить файл из архива");
+        ConsoleHelper.writeMessage(" " + Operation.EXTRACT.ordinal() + " - распаковать архив");
+        ConsoleHelper.writeMessage(" " + Operation.CONTENT.ordinal() + " - просмотреть содержимое архива");
+        ConsoleHelper.writeMessage(" " + Operation.EXIT.ordinal() + " - выход");
 
+        return Operation.values()[ConsoleHelper.readInt()];
 
-        } catch (Exception e) {}
     }
 }
