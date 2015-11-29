@@ -20,8 +20,7 @@ public class Archiver {
 
             reader.close();
 
-            ExitCommand exitCommand = new ExitCommand();
-            exitCommand.execute();
+            new ExitCommand().execute();
 
 
         } catch (Exception e) {}

@@ -19,21 +19,22 @@ public class ZipFileManager {
     //methods
     public void createZip(Path source) throws Exception {
 
-        try(ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile));
-            InputStream inputStream = Files.newInputStream(source)) {
+        try ( ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile)))
+        {
+            try( InputStream inputStream = Files.newInputStream(source))
+            {
+                ZipEntry zipEntry = new ZipEntry(source.getFileName().toString());
+                zipOutputStream.putNextEntry(zipEntry);
 
-            ZipEntry sourceEntry = new ZipEntry(source.getFileName().toString());
-            zipOutputStream.putNextEntry(sourceEntry);
+                byte[] buffer = new byte[1024];
 
-            //Считываем содержимое файла в массив byte
-            byte[] buffer = new byte[inputStream.available()];
-            inputStream.read(buffer);
+                while (inputStream.available() > 0) {
+                    int size = inputStream.read(buffer);
+                    zipOutputStream.write(buffer, 0, size);
+                }
 
-            //Добавляем содержимое к архиву
-            zipOutputStream.write(buffer);
-            //Закрываем текущую запись для новой записи
-            zipOutputStream.closeEntry();
-
+                zipOutputStream.closeEntry();
+            }
         }
     }
 }
