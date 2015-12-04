@@ -1,6 +1,5 @@
 package com.javarush.test.level32.lesson02.task01;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
