@@ -53,6 +53,37 @@ public class ZipFileManager {
         }
     }
 
+    public void extractAll(Path outputFolder) throws Exception {
+        // Проверяем существует ли zip файл
+        if (!Files.isRegularFile(zipFile)) {
+            throw new WrongZipFileException();
+        }
+
+        try (ZipInputStream zipInputStream = new ZipInputStream(Files.newInputStream(zipFile))) {
+            // Создаем директорию вывода, если она не существует
+            if (Files.notExists(outputFolder))
+                Files.createDirectories(outputFolder);
+
+            // Проходимся по содержимому zip потока (файла)
+            ZipEntry zipEntry = zipInputStream.getNextEntry();
+
+            while (zipEntry != null) {
+                String fileName = zipEntry.getName();
+                Path fileFullName = outputFolder.resolve(fileName);
+
+                // Создаем необходимые директории
+                Path parent = fileFullName.getParent();
+                if (Files.notExists(parent))
+                    Files.createDirectories(parent);
+
+                try (OutputStream outputStream = Files.newOutputStream(fileFullName)) {
+                    copyData(zipInputStream, outputStream);
+                }
+                zipEntry = zipInputStream.getNextEntry();
+            }
+        }
+    }
+
     public List<FileProperties> getFilesList() throws Exception {
         // Проверяем существует ли zip файл
         if (!Files.isRegularFile(zipFile)) {
@@ -99,58 +130,4 @@ public class ZipFileManager {
             out.write(buffer, 0, len);
         }
     }
-
-    public void extractAll(Path outputFolder) throws Exception {
-
-        //Проверь, есть ли zip файл вообще
-        if (Files.notExists(zipFile)) {
-            throw new WrongZipFileException();
-        }
-        //Если директория outputFolder не существует, то ее нужно создать, как и все папки, внутри которых она лежит.
-        if (Files.notExists(outputFolder)) {
-            Files.createDirectories(outputFolder);
-        }
-
-        ZipInputStream zipInputStream = new ZipInputStream(Files.newInputStream(zipFile));
-        ZipEntry entry;
-
-        while ((entry = zipInputStream.getNextEntry()) != null) {
-            Path path = outputFolder.resolve(entry.getName());
-
-            if (entry.isDirectory()) {
-                Files.createDirectories(path.getParent());
-            }
-
-            else {
-                Files.createDirectories(path.getParent());
-                OutputStream fileOutputStream = Files.newOutputStream(path);
-                copyData(zipInputStream, fileOutputStream);
-                fileOutputStream.close();
-            }
-        }
-        zipInputStream.close();
-
-    }
-
 }
-
-/*
-Пора попробовать что-нибудь распаковать. Для этого добавим публичный метод void extractAll(Path
-outputFolder) throws Exception в класс ZipFileManager. Path outputFolder  - это путь, куда мы будем
-распаковывать наш архив. У тебя уже большой опыт работы с элементами архива и потоками. Так что, я
-дам только подсказки по реализации этого метода, а тебе придется хорошенько подумать, как это все
-сделать:
-1.	Проверь, есть ли zip файл вообще
-2.	Если директория outputFolder не существует, то ее нужно создать, как и все папки, внутри которых
-она лежит.
-3.	Внутри архива некоторые файлы могут лежат внутри папок, тогда метод getName() элемента
-архива ZipEntry, вернет не совсем имя, как может показаться из названия, а относительный путь
-внутри архива. Этот относительный путь должен сохраниться и после распаковки, но уже
-относительно той директории, куда мы распаковали архив
-4.	Реализуй метод execute() класса ZipExtractCommand, по аналогии с таким же методом класса
-ZipCreateCommand, сделай такой же блок try-catch, только поменяй сообщения выводимые
-пользователю, чтобы он понял, что сейчас мы будем распаковывать архив, и что нужно ввести
-полное имя архива и директорию, куда будем распаковывать. Не забудь вызвать метод extractAll
-класса ZipFileManager, а не createZip, как это было в ZipCreateCommand
-5.	Запускай программу и наслаждайся результатом распаковки
- */
