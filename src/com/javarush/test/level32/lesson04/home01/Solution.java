@@ -20,7 +20,7 @@ public class Solution {
         if (is != null) {
 
             InputStreamReader inputStreamReader = new InputStreamReader(is);
-            
+
             char[] buffer = new char[1024];
             int count;
 
