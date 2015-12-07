@@ -38,15 +38,7 @@ public class Advertisement {
     public void revalidate() throws UnsupportedOperationException {
 
         if (hits <= 0) throw new UnsupportedOperationException();
-
-        initialAmount -= amountPerOneDisplaying;
+        if (hits == 1) amountPerOneDisplaying += initialAmount % amountPerOneDisplaying;
         hits--;
-
-        if (hits > 0) {
-            amountPerOneDisplaying = (long) (initialAmount * 1.0 / hits);
-        }
-        else {
-            amountPerOneDisplaying = 0;
-        }
     }
 }
