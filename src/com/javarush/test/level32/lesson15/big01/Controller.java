@@ -13,10 +13,33 @@ public class Controller {
     public Controller(View view) {
         this.view = view;
     }
-}
-/*
 
-1.5.	Добавь в класс View поле Controller controller.
-1.6.	Добавь в класс View сеттер и геттер для поля controller.
-1.7.	Добавь пустую реализацию метода, который объявлен в интерфейсе ActionListener.
- */
+
+    public void init() {
+
+    }
+
+
+    public void exit() {
+        System.exit(0);
+    }
+
+
+    //psvm
+    public static void main(String[] args) {
+
+        //Создавать объект представления
+        View view = new View();
+        //Создавать контроллер, используя представление
+        Controller controller = new Controller(view);
+        //Устанавливать у представления контроллер
+        view.setController(controller);
+        //Инициализировать представление
+        view.init();
+        //Инициализировать контроллер. Контроллер должен инициализироваться после представления
+        controller.init();
+
+    }
+
+
+}
