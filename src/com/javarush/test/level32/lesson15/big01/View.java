@@ -21,6 +21,23 @@ public class View extends JFrame implements ActionListener  {
     private JEditorPane plainTextPane = new JEditorPane();
 
 
+    //constructor
+    public View() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (IllegalAccessException e) {
+            ExceptionHandler.log(e);
+        } catch (InstantiationException e) {
+            ExceptionHandler.log(e);
+        } catch (UnsupportedLookAndFeelException e) {
+            ExceptionHandler.log(e);
+        } catch (ClassNotFoundException e) {
+            ExceptionHandler.log(e);
+        }
+    }
+
+
+
     //methods
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -38,7 +55,36 @@ public class View extends JFrame implements ActionListener  {
 
     }
 
-    public void initMenuBar() {}
+    public void initMenuBar() {
+        //Создавать новый объект типа JMenuBar. Это и будет наша панель меню
+        JMenuBar jMenuBar = new JMenuBar();
+        //С помощью MenuHelper инициализировать меню
+        MenuHelper.initFileMenu(this, jMenuBar);
+        MenuHelper.initEditMenu(this, jMenuBar);
+        MenuHelper.initStyleMenu(this, jMenuBar);
+        MenuHelper.initAlignMenu(this, jMenuBar);
+        MenuHelper.initColorMenu(this, jMenuBar);
+        MenuHelper.initFontMenu(this, jMenuBar);
+        MenuHelper.initHelpMenu(this, jMenuBar);
+
+        //Добавлять в верхнюю часть панели контента текущего фрейма нашу панель меню, аналогично тому, как это мы делали с панелью вкладок
+        getContentPane().add(jMenuBar, BorderLayout.NORTH);
+
+
+
+        /*
+
+9.2.	Добавь конструктор класса View. Он должен устанавливать внешний вид и поведение
+(look and feel) нашего приложения такими же, как это определено в системе.
+Конструктор не должен кидать исключений, только логировать их с помощью
+ExceptionHandler. Подсказа: для реализации задания используй класс UIManager.
+
+Запусти приложение, теперь ты должен видеть панель с меню вверху окна. Некоторые из
+пунктов меню (например: Вырезать, Копировать, Вставить, Стиль (частично), Выравнивание,
+Цвет, Шрифт) должны уже работать. Убедись, что все работает и только затем продолжи
+разработку.
+         */
+    }
 
     public void initEditor() {
 
