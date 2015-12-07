@@ -1,5 +1,7 @@
 package com.javarush.test.level32.lesson15.big01;
 
+import com.javarush.test.level32.lesson15.big01.listeners.FrameListener;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +27,24 @@ public class View extends JFrame implements ActionListener  {
 
 
     public void init() {
+        initGui();
+        //Добавлять слушателя событий нашего окна
+        FrameListener frameListener = new FrameListener(this);
+        addWindowListener(frameListener);
+        //Показывать наше окно
+        setVisible(true);
 
+    }
+
+    public void initMenuBar() {}
+
+    public void initEditor() {}
+
+    public void initGui() {
+        initMenuBar();
+        initEditor();
+
+        pack();
     }
 
 
@@ -44,4 +63,3 @@ public class View extends JFrame implements ActionListener  {
         this.controller = controller;
     }
 }
-
