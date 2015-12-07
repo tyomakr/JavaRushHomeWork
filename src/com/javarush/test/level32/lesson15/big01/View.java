@@ -9,6 +9,13 @@ public class View extends JFrame implements ActionListener  {
 
     private Controller controller;
 
+    //это будет панель с двумя вкладками
+    private JTabbedPane tabbedPane = new JTabbedPane();
+    //это будет компонент для визуального редактирования html
+    private JTextPane htmlTextPane = new JTextPane();
+    //это будет компонент для редактирования html в виде текста, он будет отображать код html (теги и их содержимое)
+    private JEditorPane plainTextPane = new JEditorPane();
+
 
     //methods
     @Override
@@ -37,3 +44,4 @@ public class View extends JFrame implements ActionListener  {
         this.controller = controller;
     }
 }
+
