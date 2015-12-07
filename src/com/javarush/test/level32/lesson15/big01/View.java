@@ -48,6 +48,9 @@ public class View extends JFrame implements ActionListener  {
     }
 
 
+    public void selectedTabChanged() {}
+
+
     //Добавь в представление метод exit(), он должен вызывать exit() у контроллера
     public void exit() {
         controller.exit();
