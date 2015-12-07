@@ -121,6 +121,14 @@ ExceptionHandler. Подсказа: для реализации задания �
 
     public void selectedTabChanged() {}
 
+    public boolean canUndo() {
+        return false;
+    }
+
+    public boolean canRedo() {
+        return false;
+    }
+
 
     //Добавь в представление метод exit(), он должен вызывать exit() у контроллера
     public void exit() {
