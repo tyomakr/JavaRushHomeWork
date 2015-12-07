@@ -2,8 +2,12 @@ package com.javarush.test.level32.lesson15.big01;
 
 import com.javarush.test.level32.lesson15.big01.listeners.FrameListener;
 import com.javarush.test.level32.lesson15.big01.listeners.TabbedPaneChangeListener;
+import com.javarush.test.level32.lesson15.big01.listeners.UndoListener;
 
 import javax.swing.*;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +16,10 @@ import java.awt.event.ActionListener;
 public class View extends JFrame implements ActionListener  {
 
     private Controller controller;
+
+    private UndoManager undoManager = new UndoManager();
+    private UndoListener undoListener = new UndoListener(undoManager);
+
 
     //это будет панель с двумя вкладками
     private JTabbedPane tabbedPane = new JTabbedPane();
@@ -70,20 +78,6 @@ public class View extends JFrame implements ActionListener  {
         //Добавлять в верхнюю часть панели контента текущего фрейма нашу панель меню, аналогично тому, как это мы делали с панелью вкладок
         getContentPane().add(jMenuBar, BorderLayout.NORTH);
 
-
-
-        /*
-
-9.2.	Добавь конструктор класса View. Он должен устанавливать внешний вид и поведение
-(look and feel) нашего приложения такими же, как это определено в системе.
-Конструктор не должен кидать исключений, только логировать их с помощью
-ExceptionHandler. Подсказа: для реализации задания используй класс UIManager.
-
-Запусти приложение, теперь ты должен видеть панель с меню вверху окна. Некоторые из
-пунктов меню (например: Вырезать, Копировать, Вставить, Стиль (частично), Выравнивание,
-Цвет, Шрифт) должны уже работать. Убедись, что все работает и только затем продолжи
-разработку.
-         */
     }
 
     public void initEditor() {
@@ -122,11 +116,32 @@ ExceptionHandler. Подсказа: для реализации задания �
     public void selectedTabChanged() {}
 
     public boolean canUndo() {
-        return false;
+        return undoManager.canUndo();
     }
 
     public boolean canRedo() {
-        return false;
+        return undoManager.canRedo();
+    }
+
+    public void undo() {
+
+        try {
+            undoManager.undo();
+        } catch (CannotUndoException e) {
+            ExceptionHandler.log(e);
+        }
+    }
+
+    public void redo() {
+        try {
+            undoManager.redo();
+        } catch (CannotUndoException e) {
+            ExceptionHandler.log(e);
+        }
+    }
+
+    public void resetUndo() {
+        undoManager.discardAllEdits();
     }
 
 
@@ -143,5 +158,9 @@ ExceptionHandler. Подсказа: для реализации задания �
 
     public void setController(Controller controller) {
         this.controller = controller;
+    }
+
+    public UndoListener getUndoListener() {
+        return undoListener;
     }
 }
