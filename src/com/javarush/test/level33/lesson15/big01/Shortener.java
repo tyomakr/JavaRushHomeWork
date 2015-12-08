@@ -48,12 +48,4 @@ public class Shortener {
             return null;
         }
     }
-
-
-
 }
-
-/*
-
-3.6.	Предусмотреть возможность вызова методов getId и getString из разных потоков.
- */
