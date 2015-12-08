@@ -42,4 +42,8 @@ public class Controller {
     }
 
 
+    //setters and getters
+    public HTMLDocument getDocument() {
+        return document;
+    }
 }

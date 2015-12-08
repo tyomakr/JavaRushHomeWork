@@ -147,13 +147,30 @@ public class View extends JFrame implements ActionListener  {
         return tabbedPane.getSelectedIndex() == 0;
     }
 
+    public void selectHtmlTab() {
+        //Выбирать html вкладку (переключаться на нее)
+        tabbedPane.setSelectedIndex(0);
+        //Сбрасывать все правки с помощью метода
+        resetUndo();
+    }
+
+
+    //Добавь в представление метод update(), который должен получать документ у
+    //контроллера и устанавливать его в панель редактирования htmlTextPane.
+    public void update() {
+        htmlTextPane.setDocument(controller.getDocument());
+    }
+
+    public void showAbout() {
+        JOptionPane.showMessageDialog(this, "HTML Editor", "About", JOptionPane.INFORMATION_MESSAGE);
+    }
+
 
 
     //Добавь в представление метод exit(), он должен вызывать exit() у контроллера
     public void exit() {
         controller.exit();
     }
-
 
     //setter and getter
     public com.javarush.test.level32.lesson15.big01.Controller getController() {
