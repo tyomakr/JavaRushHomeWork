@@ -1,10 +1,8 @@
 package com.javarush.test.level32.lesson15.big01;
 
-import javax.swing.text.BadLocationException;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import java.io.File;
-import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 
@@ -80,7 +78,13 @@ AbstractDocument). Слушателя нужно запросить у пред�
         return stringWriter.toString();
     }
 
+    public void createNewDocument() {}
 
+    public void openDocument() {}
+
+    public void saveDocument() {}
+
+    public void saveDocumentAs() {}
 
 
     public void exit() {
@@ -109,4 +113,6 @@ AbstractDocument). Слушателя нужно запросить у пред�
     public HTMLDocument getDocument() {
         return document;
     }
+
+
 }
