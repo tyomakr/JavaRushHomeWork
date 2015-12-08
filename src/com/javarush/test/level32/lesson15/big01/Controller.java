@@ -1,6 +1,7 @@
 package com.javarush.test.level32.lesson15.big01;
 
 import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
 import java.io.File;
 
 public class Controller {
@@ -15,9 +16,35 @@ public class Controller {
     }
 
 
-    public void init() {
+    public void init() {}
+
+    /*
+    Добавь в контроллер метод resetDocument(), который будет сбрасывать текущий документ. Он
+должен:
+15.1.	Удалять у текущего документа document слушателя правок которые можно
+отменить/вернуть (найди подходящий для этого метод, унаследованный от
+AbstractDocument). Слушателя нужно запросить у представления (метод getUndoListener()).
+Не забудь проверить, что текущий документ существует (не null).
+15.2.	Создавать новый документ по умолчанию и присваивать его полю document.
+Подсказка: воспользуйся подходящим методом класса HTMLEditorKit.
+15.3.	Добавлять новому документу слушателя правок.
+15.4.	Вызывать у представления метод update().
+     */
+
+    public void resetDocument() {
+        if (document != null) {
+            //Удалять у текущего документа document слушателя правок которые можно отменить/вернуть
+            document.removeUndoableEditListener(view.getUndoListener());
+        }
+        //Создавать новый документ по умолчанию и присваивать его полю document
+        document = (HTMLDocument) new HTMLEditorKit().createDefaultDocument();
+        //Добавлять новому документу слушателя правок
+        document.addUndoableEditListener(view.getUndoListener());
+        //Вызывать у представления метод update()
+        view.update();
 
     }
+
 
 
     public void exit() {
