@@ -73,10 +73,7 @@ public class View extends JFrame implements ActionListener  {
                 showAbout();
                 break;
         }
-
-
     }
-
 
 
     public void init() {
