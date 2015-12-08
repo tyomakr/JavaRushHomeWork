@@ -5,7 +5,6 @@ import com.javarush.test.level32.lesson15.big01.listeners.TabbedPaneChangeListen
 import com.javarush.test.level32.lesson15.big01.listeners.UndoListener;
 
 import javax.swing.*;
-import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
@@ -143,6 +142,11 @@ public class View extends JFrame implements ActionListener  {
     public void resetUndo() {
         undoManager.discardAllEdits();
     }
+
+    public boolean isHtmlTabSelected() {
+        return tabbedPane.getSelectedIndex() == 0;
+    }
+
 
 
     //Добавь в представление метод exit(), он должен вызывать exit() у контроллера
