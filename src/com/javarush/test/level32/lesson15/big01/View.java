@@ -111,9 +111,6 @@ public class View extends JFrame implements ActionListener  {
         pack();
     }
 
-
-    public void selectedTabChanged() {}
-
     public boolean canUndo() {
         return undoManager.canUndo();
     }
@@ -154,9 +151,24 @@ public class View extends JFrame implements ActionListener  {
         resetUndo();
     }
 
+    //Этот метод вызывается, когда произошла смена выбранной вкладки
+    public void selectedTabChanged() {
+        //Метод должен проверить, какая вкладка сейчас оказалась выбранной
+        //Если выбрана вкладка с индексом 0 (html вкладка)
+        if (isHtmlTabSelected()) {
+            //значит нам нужно получить текст из plainTextPane и установить его в контроллер с помощью метода setPlainText
+            controller.setPlainText(plainTextPane.getText());
+        }
+        //сли выбрана вкладка с индексом 1 (вкладка с html текстом)
+        else {
+            //необходимо получить текст у контроллера с помощью метода getPlainText() и установить его в панель plainTextPane
+            plainTextPane.setText(controller.getPlainText());
+        }
+        //Сбросить правки
+        resetUndo();
+    }
 
-    //Добавь в представление метод update(), который должен получать документ у
-    //контроллера и устанавливать его в панель редактирования htmlTextPane.
+    //Добавь в представление метод update(), который должен получать документ у контроллера и устанавливать его в панель редактирования htmlTextPane.
     public void update() {
         htmlTextPane.setDocument(controller.getDocument());
     }
