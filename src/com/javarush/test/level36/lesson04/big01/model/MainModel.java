@@ -1,5 +1,6 @@
 package com.javarush.test.level36.lesson04.big01.model;
 
+import com.javarush.test.level36.lesson04.big01.bean.User;
 import com.javarush.test.level36.lesson04.big01.model.service.UserService;
 import com.javarush.test.level36.lesson04.big01.model.service.UserServiceImpl;
 
@@ -30,6 +31,11 @@ public class MainModel implements Model {
 
         modelData.setDisplayDeletedUserList(true);
         modelData.setUsers(userService.getAllDeletedUsers());
+    }
+
+    public void loadUserById(long userId) {
+        User user = userService.getUsersById(userId);
+        modelData.setActiveUser(user);
     }
 
 }

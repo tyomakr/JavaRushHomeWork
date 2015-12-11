@@ -10,6 +10,9 @@ public class EditUserView implements View {
 
     private Controller controller;
 
+
+
+
     @Override
     public void refresh(ModelData modelData) {
         System.out.println("User to be edited:");
