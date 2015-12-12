@@ -27,12 +27,9 @@ public class Solution {
         usersView.fireEventShowDeletedUsers();
         usersView.fireEventOpenUserEditForm(126);
 
+        editUserView.fireEventUserDeleted(124);
+
+        editUserView.fireEventUserChanged("IPetrov", 125, 15);
+
     }
 }
-
-
-/*!!!! Пользователь видит Вью со списком юзеров, нажимает на одного из них, запрос идет на сервер,
-        выгребаем новые данные и отображаем другую Вью, которая относится к одному выбранному пользователю.
-        Учти это при реализации этого задания.
-
-        2. Добавь в метод main открытие формы редактирования для пользователя с id=126*/
