@@ -41,7 +41,7 @@ public class Solution {
         //добавляем посимвольно в arraylist
         List<String> stringList = Arrays.asList(text.split(""));
         //создаем set
-        SortedSet<String> treeSet = new TreeSet<>();
+        TreeSet<String> treeSet = new TreeSet<>();
 
         //добавляем символы в set
         for (int i = 0; i < stringList.size(); i++) {
