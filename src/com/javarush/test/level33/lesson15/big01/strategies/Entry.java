@@ -6,10 +6,10 @@ import java.util.Objects;
 
 public class Entry implements Serializable {
 
-    long key;
+    final long key;
     String value;
     Entry next;
-    int hash;
+    final int hash;
 
 
     public Entry(int hash, long key, String value, Entry next) {
@@ -32,18 +32,12 @@ public class Entry implements Serializable {
 
 
     public int hashCode() {
-
-        return Objects.hashCode(getKey());
+        return hash ^ Objects.hashCode(value);
     }
 
     @Override
     public String toString() {
-        return "Entry{" +
-                "key=" + key +
-                ", value='" + value + '\'' +
-                ", next=" + next +
-                ", hash=" + hash +
-                '}';
+        return key +"=" + value;
     }
 }
 /*
