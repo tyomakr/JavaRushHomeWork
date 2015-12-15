@@ -36,15 +36,17 @@ public class Solution {
         String text = reader(file);
 
         //операции по удалению лишнего
-        text = textCutter(text);
+        //text = textCutter(text);
 
         //добавляем посимвольно в arraylist
-        List<String> stringList = Arrays.asList(text.split(""));
+        List<String> stringList = Arrays.asList(text.toLowerCase().split(""));
         //создаем set
         TreeSet<String> treeSet = new TreeSet<>();
 
         //добавляем символы в set
         for (int i = 0; i < stringList.size(); i++) {
+            String s = stringList.get(i);
+            if((s.matches("\\w")) && (s.matches("[^0-9]")))
             treeSet.add(stringList.get(i));
         }
 
@@ -64,6 +66,7 @@ public class Solution {
             }
         }
 
+
     }
 
     public static String reader(File file) throws IOException {
@@ -76,17 +79,5 @@ public class Solution {
         }
         raf.close();
         return res;
-    }
-
-    public static String textCutter(String text) {
-        //преобразуем текст в lowercase
-        text = text.toLowerCase();
-        //убираем лишние символы
-        text = text.replaceAll("[\\W]","");
-        text = text.replaceAll("\\d", "");
-        text = text.replaceAll("\\p{Cntrl}", "");
-        text = text.replaceAll("_", "");
-
-        return text;
     }
 }

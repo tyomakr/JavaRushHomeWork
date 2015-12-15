@@ -14,9 +14,7 @@ public class Restaurant {
         Waitor waitor = new Waitor();
 
         cook.addObserver(waitor);
-
         tablet.addObserver(cook);
-
         tablet.createOrder();
 
 
@@ -28,6 +26,16 @@ public class Restaurant {
         directorTablet.printArchivedVideoSet();
 
 
+    /*
+        Cook cook2 = new Cook("Amigo2");
+        cook2.addObserver(waitor);
+        tablet.addObserver(cook2);
+        tablet.createOrder();
+        directorTablet.printAdvertisementProfit();
+        directorTablet.printCookWorkloading();
+        directorTablet.printActiveVideoSet();
+        directorTablet.printArchivedVideoSet();
+        */
     }
 
 }

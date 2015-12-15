@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class DirectorTablet {
 
-    DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+    DateFormat dateFormat = new SimpleDateFormat("dd-MMMM-yyyy");
 
     public void printAdvertisementProfit(){
 
