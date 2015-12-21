@@ -4,21 +4,20 @@ import java.io.Serializable;
 import java.util.Objects;
 
 
-public class Entry implements Serializable {
+public class Entry<key, value> implements Serializable {
 
+    final int hash;
     final long key;
     String value;
-    Entry next;
-    final int hash;
+    Entry<key, value> next;
 
 
-    public Entry(int hash, long key, String value, Entry next) {
+    public Entry(int hash, long key, String value, Entry<key, value> next) {
         this.hash = hash;
         this.key = key;
         this.value = value;
         this.next = next;
     }
-
 
     public long getKey() {
         return key;
@@ -30,14 +29,13 @@ public class Entry implements Serializable {
     }
 
 
-
     public int hashCode() {
         return hash ^ Objects.hashCode(value);
     }
 
     @Override
     public String toString() {
-        return key +"=" + value;
+        return key + "=" + value;
     }
 }
 /*
