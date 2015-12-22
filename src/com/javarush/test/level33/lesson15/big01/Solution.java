@@ -1,6 +1,7 @@
 package com.javarush.test.level33.lesson15.big01;
 
 import com.javarush.test.level33.lesson15.big01.strategies.HashMapStorageStrategy;
+import com.javarush.test.level33.lesson15.big01.strategies.OurHashMapStorageStrategy;
 import com.javarush.test.level33.lesson15.big01.strategies.StorageStrategy;
 
 import java.util.Date;
@@ -87,6 +88,8 @@ public class Solution {
 
         StorageStrategy strategy = new HashMapStorageStrategy();
         testStrategy(strategy, 10000);
+        OurHashMapStorageStrategy strategy2 = new OurHashMapStorageStrategy();
+        testStrategy(strategy2, 10000);
     }
 
 }
