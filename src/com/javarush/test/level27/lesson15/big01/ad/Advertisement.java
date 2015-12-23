@@ -15,7 +15,10 @@ public class Advertisement {
         this.initialAmount = initialAmount;
         this.hits = hits;
         this.duration = duration;
-        amountPerOneDisplaying = (long) (initialAmount * 1.0 / hits);
+        if (hits == 0)
+            amountPerOneDisplaying = 0;
+        else
+            amountPerOneDisplaying = initialAmount / hits;
     }
 
 

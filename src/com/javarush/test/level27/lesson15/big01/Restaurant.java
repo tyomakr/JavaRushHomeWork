@@ -26,8 +26,8 @@ public class Restaurant {
         directorTablet.printArchivedVideoSet();
 
 
-    /*
-        Cook cook2 = new Cook("Amigo2");
+
+        /*Cook cook2 = new Cook("Amigo2");
         cook2.addObserver(waitor);
         tablet.addObserver(cook2);
         tablet.createOrder();
@@ -35,7 +35,7 @@ public class Restaurant {
         directorTablet.printCookWorkloading();
         directorTablet.printActiveVideoSet();
         directorTablet.printArchivedVideoSet();
-        */
+*/
     }
 
 }

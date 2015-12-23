@@ -1,16 +1,37 @@
 package com.javarush.test.level33.lesson15.big01.strategies;
 
+import com.javarush.test.level33.lesson15.big01.ExceptionHandler;
+
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class FileBucket {
+public class FileBucket implements Serializable {
 
-    Path path;
+
+    private Path path;
+
+    public FileBucket() {
+        try {
+            path = Files.createTempFile("tmp", null, null);
+        }
+        catch (IOException e) {
+            ExceptionHandler.log(e);
+        }
+        path.toFile().deleteOnExit();
+    }
+
 
 
 }
 
-
 /*
+Задание 9.
+
+Напишем еще одну стратегию, назовем ее FileStorageStrategy. Она будет очень похожа
+на стратегию OurHashMapStorageStrategy, но в качестве ведер (англ. buckets) будут
+файлы. Я знаю, ты знаешь о каких buckets идет речь, если нет – повтори внутреннее
+устройство HashMap.
 9.1.	Создай класс FileBucket в пакете strategies.
 9.2.	Добавь в класс поле Path path. Это будет путь к файлу.
 9.3.	Добавь в класс конструктор, он должен:
@@ -21,8 +42,6 @@ Files.createTempFile.
 заменять его.
 9.3.3.	Обеспечивать удаление файла при выходе из программы. Подсказка:
 deleteOnExit().
-
-
 9.4.	Добавь в класс методы:
 9.4.1.	long getFileSize(), он должен возвращать размер файла на который
 указывает path.
@@ -32,5 +51,4 @@ deleteOnExit().
 размер, вернуть null.
 9.4.4.	void remove() – удалять файл на который указывает path.
 Конструктор и методы не должны кидать исключения.
-
  */

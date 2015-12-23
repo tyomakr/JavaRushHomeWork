@@ -14,9 +14,11 @@ public class OurHashMapStorageStrategy implements StorageStrategy {
     int hash(Long k){
         return k.hashCode();
     }
+
     int indexFor(int hash, int length){
         return hash & (length-1);
     }
+
     Entry getEntry(Long key){
         if (size == 0) {
             return null;
@@ -32,6 +34,7 @@ public class OurHashMapStorageStrategy implements StorageStrategy {
         }
         return null;
     }
+
     void resize(int newCapacity){
         Entry[] oldTable = table;
         int oldCapacity = oldTable.length;
@@ -44,6 +47,7 @@ public class OurHashMapStorageStrategy implements StorageStrategy {
         table = newTable;
         threshold = (int)Math.min(newCapacity * loadFactor, (1 << 30) + 1);
     }
+
     void transfer(Entry[] newTable){
         int newCapacity = newTable.length;
         for (Entry e : table) {
@@ -56,6 +60,7 @@ public class OurHashMapStorageStrategy implements StorageStrategy {
             }
         }
     }
+
     void addEntry(int hash, Long key, String value, int bucketIndex){
         if ((size >= threshold) && (null != table[bucketIndex])) {
             resize(2 * table.length);
@@ -64,6 +69,7 @@ public class OurHashMapStorageStrategy implements StorageStrategy {
         }
         createEntry(hash, key, value, bucketIndex);
     }
+
     void createEntry(int hash, Long key, String value, int bucketIndex){
         Entry e = table[bucketIndex];
         table[bucketIndex] = new Entry(hash, key, value, e);
