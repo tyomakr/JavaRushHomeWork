@@ -34,41 +34,108 @@ public class Model  {
         restartLevel(currentLevel);
     }
 
-    public void move(Direction direction){}
+    public void move(Direction direction){
+
+        Player player = gameObjects.getPlayer();
+
+        if (checkWallCollision(player, direction)) {
+            return;
+        }
+        if (checkBoxCollision(direction)){
+            return;
+        }
+
+        int sellSize = FIELD_SELL_SIZE;
+        switch (direction) {
+            case LEFT:
+                player.move(-sellSize, 0);
+                break;
+            case RIGHT:
+                player.move(sellSize, 0);
+                break;
+            case UP:
+                player.move(0, -sellSize);
+                break;
+            case DOWN:
+                player.move(0, sellSize);
+        }
+        checkCompletion();
+    }
 
 
     public boolean checkWallCollision(CollisionObject gameObject, Direction direction){
-        return gameObject.isCollision(gameObject, direction);
+
+        for (Wall wall : gameObjects.getWalls()){
+
+            if(gameObject.isCollision(wall, direction)){
+                return true;
+            }
+        }
+        return false;
     }
 
-    
+
+    public boolean checkBoxCollision(Direction direction){
+
+        Player player = gameObjects.getPlayer();
+
+        // найдем во что уперся игрок
+        GameObject  stoped = null;
+        for (GameObject gameObject: gameObjects.getAll()){
+            if (!(gameObject instanceof Player)&&!(gameObject instanceof Home) && player.isCollision(gameObject, direction)){
+                stoped = gameObject;
+            }
+        }
+        //свободное место или дом
+        if ((stoped == null)){
+            return false;
+        }
+        if (stoped instanceof Box){
+            Box stopedBox = (Box)stoped;
+            if (checkWallCollision(stopedBox, direction)){
+                return true;
+            }
+            for (Box box : gameObjects.getBoxes()){
+                if(stopedBox.isCollision(box, direction)){
+                    return true;
+                }
+            }
+            switch (direction)
+            {
+                case LEFT:
+                    stopedBox.move(-FIELD_SELL_SIZE, 0);
+                    break;
+                case RIGHT:
+                    stopedBox.move(FIELD_SELL_SIZE, 0);
+                    break;
+                case UP:
+                    stopedBox.move(0, -FIELD_SELL_SIZE);
+                    break;
+                case DOWN:
+                    stopedBox.move(0, FIELD_SELL_SIZE);
+            }
+        }
+        return false;
+
+    }
+
+    public void checkCompletion() {
+
+        boolean yes = true;
+
+        for(Home home : gameObjects.getHomes()){
+            boolean currentyes = false;
+
+            for (Box box: gameObjects.getBoxes()){
+                if ((box.getX() == home.getX()) && (box.getY() == home.getY()))
+                    currentyes = true;
+            }
+
+            if (!currentyes)yes = false;
+        }
+
+        if (yes)
+            eventListener.levelCompleted(currentLevel);
+    }
 }
 
-/*
-15.2.	boolean checkBoxCollision(Direction direction). Этот метод проверяет
-столкновение с ящиками. Метод должен:
-15.2.1.	Вернуть true, если игрок не может быть сдвинут в направлении direction (там
-находится: или ящик, за которым стена; или ящик за которым еще один ящик).
-15.2.2.	Вернуть false, если игрок может быть сдвинут в направлении direction (там
-находится: или свободная ячейка; или дом; или ящик, за которым свободная
-ячейка или дом). При это, если на пути есть ящик, который может быть сдвинут, то
-необходимо переместить этот ящик на новые координаты. Обрати внимание, что
-все объекты перемещаются на фиксированное значение FIELD_SELL_SIZE, не
-зависящее от размеров объекта, которые используются для его отрисовки.
-Подсказка: для определения столкновений используй методы isCollision() игровых
-объектов и метод checkWallCollision() модели.
-15.3.	void checkCompletion(). Этот метод должен проверить пройден ли уровень (на
-всех ли домах стоят ящики, их координаты должны совпадать). Если условие
-выполнено, то проинформировать слушателя событий, что текущий уровень завершен.
-15.4.	void move(Direction direction). Метод должен:
-15.4.1.	Проверить столкновение со стеной (метод checkWallCollision()), если есть
-столкновение – выйти из метода.
-15.4.2.	Проверить столкновение с ящиками (метод checkBoxCollision()), если есть
-столкновение – выйти из метода.
-15.4.3.	Передвинуть игрока в направлении direction.
-15.4.4.	Проверить завершен ли уровень.
-
-Запусти программу и проверь, что игрока можно перемещать, он может перемещать
-ящики, стены преграждают движение, а при перемещении всех ящиков в дома выводится
-сообщение о прохождении уровня.
- */
