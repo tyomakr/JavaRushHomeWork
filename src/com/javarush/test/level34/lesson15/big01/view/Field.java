@@ -1,7 +1,7 @@
 package com.javarush.test.level34.lesson15.big01.view;
 
+import com.javarush.test.level34.lesson15.big01.controller.EventListener;
 import com.javarush.test.level34.lesson15.big01.model.*;
-import com.javarush.test.level34.lesson15.big01.model.Box;
 
 
 import javax.swing.*;
@@ -10,6 +10,7 @@ import java.awt.*;
 public class Field extends JPanel {
 
     private View view;
+    private EventListener eventListener;
 
     public Field(View view) {
         this.view = view;
@@ -18,12 +19,16 @@ public class Field extends JPanel {
     public void paint(Graphics g) {
 
         g.setColor(Color.BLACK);
-        g.fillRect(0, 0, 500, 500);
+        g.fillRect(getX(), getY(), getWidth(), getHeight());
 
-        Player player = new Player(30, 30);
-        player.draw(g);
-        com.javarush.test.level34.lesson15.big01.model.Box box = new Box(100, 100);
-        box.draw(g);
+        for (GameObject object : view.getGameObjects().getAll()) {
+            object.draw(g);
+        }
+
     }
 
+
+    public void setEventListener(EventListener eventListener) {
+        this.eventListener = eventListener;
+    }
 }

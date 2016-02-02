@@ -1,6 +1,8 @@
 package com.javarush.test.level34.lesson15.big01.view;
 
 import com.javarush.test.level34.lesson15.big01.controller.Controller;
+import com.javarush.test.level34.lesson15.big01.controller.EventListener;
+import com.javarush.test.level34.lesson15.big01.model.GameObjects;
 
 import javax.swing.*;
 
@@ -22,4 +24,25 @@ public class View extends JFrame {
         setTitle("Сокобан");
         setVisible(true);
     }
+
+    public void setEventListener(EventListener eventListener) {
+        this.field.setEventListener(eventListener);
+    }
+
+    public void update() {
+        this.field.repaint();
+    }
+
+    public GameObjects getGameObjects() {
+        return controller.getGameObjects();
+    }
+
+    public void completed(int level) {
+        update();
+        JOptionPane.showMessageDialog(null, level + "Completed", "Level", JOptionPane.INFORMATION_MESSAGE);
+        controller.startNextLevel();
+    }
+
+
 }
+
