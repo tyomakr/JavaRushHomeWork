@@ -1,6 +1,5 @@
 package com.javarush.test.level33.lesson15.big01.strategies;
 
-
 import java.util.HashMap;
 import java.util.Map;
 

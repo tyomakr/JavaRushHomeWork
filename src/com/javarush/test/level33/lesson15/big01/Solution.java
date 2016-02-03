@@ -1,8 +1,6 @@
 package com.javarush.test.level33.lesson15.big01;
 
-import com.javarush.test.level33.lesson15.big01.strategies.HashMapStorageStrategy;
-import com.javarush.test.level33.lesson15.big01.strategies.OurHashMapStorageStrategy;
-import com.javarush.test.level33.lesson15.big01.strategies.StorageStrategy;
+import com.javarush.test.level33.lesson15.big01.strategies.*;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -90,6 +88,15 @@ public class Solution {
         testStrategy(strategy, 10000);
         OurHashMapStorageStrategy strategy2 = new OurHashMapStorageStrategy();
         testStrategy(strategy2, 10000);
+        FileStorageStrategy strategy3 = new FileStorageStrategy();
+        testStrategy(strategy3, 500);
+        OurHashBiMapStorageStrategy strategy4 = new OurHashBiMapStorageStrategy();
+        testStrategy(strategy4, 10000);
+        HashBiMapStorageStrategy strategy5 = new HashBiMapStorageStrategy();
+        testStrategy(strategy5, 10000);
+        DualHashBidiMapStorageStrategy strategy6 = new DualHashBidiMapStorageStrategy();
+        testStrategy(strategy6, 10000);
+
     }
 
 }
