@@ -11,11 +11,11 @@ public class Controller implements EventListener {
     private Model model;
 
     public Controller() {
-        view = new View(this);
         model = new Model();
         model.restart();
-        view.init();
         model.setEventListener(this);
+        view = new View(this);
+        view.init();
         view.setEventListener(this);
 
     }

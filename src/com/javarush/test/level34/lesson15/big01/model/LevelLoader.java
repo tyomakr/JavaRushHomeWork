@@ -28,8 +28,7 @@ public class LevelLoader {
         player = new Player(40, 40);
 
 
-        GameObjects gameObjects = new GameObjects(walls, boxes, homes, player);
-        return gameObjects;
+        return new GameObjects(walls, boxes, homes, player);
 
     }
 
