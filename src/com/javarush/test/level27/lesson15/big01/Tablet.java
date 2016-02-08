@@ -21,29 +21,27 @@ public class Tablet extends Observable {
     }
 
 
-    public void createOrder() {
+    public void createOrder()
+    {
         Order order = null;
-
         try {
-            order = new Order(this);
 
-            if (!order.isEmpty()) {
-                ConsoleHelper.writeMessage(order.toString());
+            order = new Order(this);
+            ConsoleHelper.writeMessage(order.toString());
+
+            if(!order.isEmpty()) {
+                AdvertisementManager advertisementManager = new AdvertisementManager(order.getTotalCookingTime() * 60);
                 setChanged();
                 notifyObservers(order);
-
+                advertisementManager.processVideos();
             }
-            new AdvertisementManager(order.getTotalCookingTime() * 60).processVideos();
-            deleteObservers();
+        }
+        catch (NoVideoAvailableException e) {
+            logger.log(Level.INFO,"No video is available for the order " + order);
         }
         catch (IOException e) {
-            logger.log(Level.SEVERE, "Console is unavailable.");
+            logger.log(Level.SEVERE,"Console is unavailable.");
         }
-
-        catch (NoVideoAvailableException e) {
-            logger.log(Level.INFO, "No video is available for the order " + order);
-        }
-
     }
 
     @Override

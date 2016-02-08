@@ -9,119 +9,89 @@ import com.javarush.test.level27.lesson15.big01.statistic.event.VideoSelectedEve
 import java.util.*;
 
 public class StatisticManager {
-
-    private static StatisticManager ourInstance = new StatisticManager();
+    private static StatisticManager instance = new StatisticManager();
     private StatisticStorage statisticStorage = new StatisticStorage();
-    private Set<Cook> cookSet = new HashSet();
-
-
-    public static StatisticManager getInstance() {
-        return ourInstance;
-    }
-
+    private Set<Cook> cooks = new HashSet<>();
 
     private StatisticManager() {}
 
-
-    public void register(EventDataRow data) {
-        statisticStorage.put(data);
+    public static StatisticManager getInstance() {
+        return instance;
     }
 
+    public void register(EventDataRow data) { statisticStorage.put(data); }
 
-    public void register(Cook cook) {
-        cookSet.add(cook);
-    }
-
-
-    private Date getDay(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        GregorianCalendar g = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-        return g.getTime();
-    }
+    public void register(Cook cook) { cooks.add(cook); }
 
 
-    private class ComparatorDate implements Comparator<Date> {
-        @Override
-        public int compare(Date o1, Date o2) {
-            return o2.compareTo(o1);
+    private class StatisticStorage {
+        private Map<EventType, List<EventDataRow>> map = new HashMap<>();
+        private StatisticStorage() {
+            for (EventType type : EventType.values()) {
+                map.put(type, new ArrayList<EventDataRow>());
+            }
+        }
+        private void put(EventDataRow data) {
+            map.get(data.getType()).add(data);
+        }
+        private List<EventDataRow> get(EventType eventType) {
+            return map.get(eventType);
         }
     }
 
 
-    public Map<Date, Double> getAdvertisementProfit() {
-        Map<Date, Double> resultMap = new TreeMap<>(new ComparatorDate());
-        List<EventDataRow> listEvent = statisticStorage.get(EventType.SELECTED_VIDEOS);
+    public Map<Date, Double> getTotalMoneyPerDay() {
+        Map<Date, Double> resultMap = new TreeMap<>(Collections.reverseOrder());
 
-        for (EventDataRow v : listEvent) {
-
-            if (listEvent == null) continue;
-            VideoSelectedEventDataRow videoEvent = (VideoSelectedEventDataRow) v;
-            Date date = getDay(videoEvent.getDate());
-            long amount = videoEvent.getAmount();
-
-            if (amount==0) continue;
-            double profit = amount * 1d / 100d;
-
+        for (EventDataRow event : statisticStorage.get(EventType.SELECTED_VIDEOS)) {
+            Date date = dateWithoutTime(event.getDate());
+            VideoSelectedEventDataRow eventData = (VideoSelectedEventDataRow) event;
             if (resultMap.containsKey(date)) {
-                profit += resultMap.get(date);
+                resultMap.put(date, resultMap.get(date) + (0.01d * (double) eventData.getAmount()));
+            } else {
+                resultMap.put(date, (0.01d * (double) eventData.getAmount()));
             }
-            resultMap.put(date, profit);
         }
         return resultMap;
     }
 
 
-    public Map<Date, Map<String, Integer>> getCookWorkloading() {
+    public TreeMap<Date, TreeMap<String, Integer>> getCookInfo() {
+        TreeMap<Date, TreeMap<String, Integer>> map = new TreeMap<>(Collections.reverseOrder());
 
-        List<EventDataRow> eventDataRows = statisticStorage.get(EventType.COOKED_ORDER);
-        Map<Date, Map<String, Integer>> result = new TreeMap<>(new ComparatorDate());
+        for (EventDataRow e : statisticStorage.get(EventType.COOKED_ORDER)) {
+            Date date = dateWithoutTime(e.getDate());
+            CookedOrderEventDataRow cook = (CookedOrderEventDataRow) e;
 
-        for (EventDataRow eventDataRow : eventDataRows) {
-            if (eventDataRow == null) continue;
+            int time = cook.getTime();
+            if (time == 0) continue;
+            if (time % 60 == 0) time = time / 60;
+            else time = time / 60 + 1;
 
-            CookedOrderEventDataRow cookEvent = (CookedOrderEventDataRow) eventDataRow;
-            Map<String, Integer> treeMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-            Date date = getDay(cookEvent.getDate());
-
-            int workTime = cookEvent.getTime();
-
-            if (workTime == 0) continue;
-            workTime = (workTime + 59) / 60;
-            String cookName = cookEvent.getCookName();
-
-            if (result.containsKey(date)) {
-                treeMap = result.get(date);
-
-                if (treeMap.containsKey(cookName)) {
-                    workTime += treeMap.get(cookName);
+            if (map.containsKey(date)) {
+                TreeMap<String, Integer> value = map.get(date);
+                if (value.containsKey(cook.getCookName())) {
+                    value.put(cook.getCookName(), value.get(cook.getCookName()));
                 }
+                else value.put(cook.getCookName(), time);
             }
-            treeMap.put(cookName, workTime);
-            result.put(date, treeMap);
+            else {
+                TreeMap<String, Integer> value = new TreeMap<>();
+                value.put(cook.getCookName(), time);
+                map.put(date, value);
+            }
         }
-        return result;
+        return map;
     }
 
 
-
-    private class StatisticStorage {
-
-        private Map<EventType, List<EventDataRow>> eventTypeListMap = new HashMap<>();
-
-        private StatisticStorage() {
-            for (EventType eventType : EventType.values()) {
-                eventTypeListMap.put(eventType, new ArrayList<EventDataRow>());
-            }
-        }
-
-        private void put(EventDataRow data) {
-            if (data == null) return;
-            eventTypeListMap.get(data.getType()).add(data);
-        }
-
-        private List<EventDataRow> get(EventType eventType) {
-            return eventTypeListMap.get(eventType);
-        }
+    private Date dateWithoutTime(Date date) {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
     }
 }
