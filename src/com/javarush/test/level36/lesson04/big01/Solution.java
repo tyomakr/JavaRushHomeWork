@@ -24,8 +24,8 @@ public class Solution {
         controller.setEditUserView(editUserView);
 
         usersView.fireEventShowAllUsers();
-        usersView.fireEventShowDeletedUsers();
         usersView.fireEventOpenUserEditForm(126);
+        usersView.fireEventShowDeletedUsers();
 
         editUserView.fireEventUserDeleted(124);
 
